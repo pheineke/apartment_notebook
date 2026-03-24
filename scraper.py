@@ -27,7 +27,7 @@ def parse_price(text):
         return None
 
     # Prefer values explicitly tied to euro signs.
-    euro_values = re.findall(r"(\d{1,3}(?:[.\s]\d{3})*(?:,\d{1,2})?)\s*€", text)
+    euro_values = re.findall(r"(\d{1,9}(?:[.\s]\d{3})*(?:,\d{1,2})?)\s*(?:\u20AC|EUR|Euro)", text, re.IGNORECASE)
     if euro_values:
         parsed = []
         for candidate in euro_values:
@@ -91,7 +91,7 @@ def _to_float(raw):
 
 
 def _to_float_from_text(text):
-    m = re.search(r"(\d{1,3}(?:[.\s]\d{3})*(?:,\d+)?)", text)
+    m = re.search(r"(\d{1,9}(?:[.\s]\d{3})*(?:,\d+)?)", text)
     if not m:
         return None
     return _to_float(m.group(1))
@@ -301,7 +301,7 @@ def _parse_immowelt_or_rheinpfalz(soup, data):
         data["location"] = data.get("location") or extracted["location"]
 
     # Label-based fallback for pages that changed data-cy attributes.
-    for node in soup.find_all(string=re.compile(r"(Kaufpreis|Preis|Wohnfläche|Zimmer)", re.IGNORECASE)):
+    for node in soup.find_all(string=re.compile(r"(Kaufpreis|Preis|Wohnfl.che|Zimmer)", re.IGNORECASE)):
         chunk = _norm(node.parent.get_text(" ") if node.parent else node) or ""
         low = chunk.lower()
         if ("kaufpreis" in low or re.search(r"\bpreis\b", low)) and not data.get("price"):
@@ -364,7 +364,7 @@ def _parse_immoscout(soup, data):
         data["location"] = data.get("location") or _norm(location_tag.get_text(" "))
 
     # If the precise classes aren't found, try finding them in definitions
-    for node in soup.find_all(string=re.compile(r"(Kaufpreis|Kaltmiete|Wohnfläche|Zimmer)\b", re.IGNORECASE)):
+    for node in soup.find_all(string=re.compile(r"(Kaufpreis|Kaltmiete|Wohnfl.che|Zimmer)\b", re.IGNORECASE)):
         parent = node.parent
         sibling = parent.find_next_sibling() if parent else None
         if not sibling:
@@ -431,7 +431,7 @@ def scrape_apartment_details(url):
     if not data.get("price"):
         for label in ["kaufpreis", "kaltmiete", "warmmiete", "miete", "preis"]:
             labeled = re.search(
-                rf"(?:{label})[^€]{{0,80}}(\d{{1,3}}(?:[.\s]\d{{3}})*(?:,\d{{1,2}})?)\s*€",
+                rf"(?:{label})[^\u20AC]{{0,80}}(\d{{1,9}}(?:[.\s]\d{{3}})*(?:,\d{{1,2}})?)\s*\u20AC",
                 body_text,
                 re.IGNORECASE,
             )
