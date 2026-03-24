@@ -34,40 +34,51 @@ def apartment_detail(apt_id):
 
 @app.route('/add', methods=['POST'])
 def add_apartment():
-    url = request.form.get('url')
-    if not url:
-        flash('Please provide an URL.', 'error')
+    urls_text = request.form.get('url')
+    if not urls_text:
+        flash('Please provide at least one URL.', 'error')
         return redirect(url_for('index'))
 
-    # Check if we already have it
-    existing = Apartment.query.filter_by(original_url=url).first()
-    if existing:
-        flash('Apartment is already in the list.', 'info')
+    urls = [u.strip() for u in urls_text.splitlines() if u.strip()]
+    if not urls:
+        flash('Please provide valid URLs.', 'error')
         return redirect(url_for('index'))
 
-    # Create new entry and try to scrape
-    new_apt = Apartment(original_url=url)
-    db.session.add(new_apt)
+    added_count = 0
+    new_urls = []
+    
+    for url in urls:
+        existing = Apartment.query.filter_by(original_url=url).first()
+        if existing:
+            continue
+        new_apt = Apartment(original_url=url)
+        db.session.add(new_apt)
+        added_count += 1
+        new_urls.append(url)
+    
     db.session.commit()
 
-    # Initial scrape in background (or foreground if fast enough)
-    # Let's do it synchronous for simplicity here
-    success, data = scrape_apartment_details(url)
-    if success:
-        update_apartment_with_data(new_apt, data)
-        flash('Apartment added and details scraped successfully!', 'success')
-    else:
-        if data.get('blocked'):
-            new_apt.title = 'Blocked by anti-bot challenge (open manually)'
-            new_apt.resolved_url = data.get('resolved_url', new_apt.resolved_url)
-            db.session.commit()
-            flash('Apartment added, but source site blocked scraping. Use Open and Refresh later.', 'warning')
-            return redirect(url_for('index'))
+    if added_count == 0:
+        flash('No new apartments were added (they might already exist).', 'info')
+        return redirect(url_for('index'))
 
-        # Failed to scrape fully (maybe bot protection or offline), but still added
-        flash(f'Apartment added, but could not retrieve data automatically: {data.get("error", "Unknown error")}', 'warning')
-        
-    return redirect(url_for('index'))
+    flash(f'{added_count} apartment(s) added! Scraping details in background...', 'success')
+
+    from threading import Thread
+    def scrape_new_urls(urls_to_scrape):
+        with app.app_context():
+            for u in urls_to_scrape:
+                apt = Apartment.query.filter_by(original_url=u).first()
+                if apt:
+                    success, data = scrape_apartment_details(u)
+                    if success:
+                        update_apartment_with_data(apt, data)
+                    elif data.get('blocked'):
+                        apt.title = 'Blocked by anti-bot challenge (open manually)'
+                        apt.resolved_url = data.get('resolved_url', apt.resolved_url)
+                        db.session.commit()
+    
+    Thread(target=scrape_new_urls, args=(new_urls,)).start()
 
 @app.route('/refresh/<int:apt_id>')
 def refresh_apartment(apt_id):
