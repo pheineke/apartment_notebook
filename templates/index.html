@@ -1,33 +1,49 @@
 {% extends "layout.html" %}
 
 {% block content %}
-<div class="row mb-4">
-    <div class="col-md-10 mx-auto">
-        <div class="card shadow-sm">
-            <div class="card-body">
-                <form action="/add" method="POST" class="d-flex gap-2">
-                    <input type="url" name="url" class="form-control" placeholder="Paste apartment URL here (ImmoScout24, Kleinanzeigen, etc...)" required>
-                    <button type="submit" class="btn btn-primary">Add Tracking</button>
-                </form>
-            </div>
-        </div>
+<!-- Add Modal -->
+<div class="modal fade" id="addApartmentModal" tabindex="-1" aria-labelledby="addApartmentModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header border-0 pb-0">
+        <h5 class="modal-title fw-bold" id="addApartmentModalLabel">Add New Listing</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form action="/add" method="POST">
+          <div class="modal-body">
+              <div class="mb-3">
+                  <label class="form-label text-muted small text-uppercase fw-semibold">Listing URL</label>
+                  <input type="url" name="url" class="form-control form-control-lg bg-light" placeholder="Paste apartment URL here..." required>
+              </div>
+          </div>
+          <div class="modal-footer border-0 pt-0">
+              <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
+              <button type="submit" class="btn btn-primary px-4">Track Apartment</button>
+          </div>
+      </form>
     </div>
+  </div>
 </div>
 
 <div class="row">
     <div class="col-12">
-        <ul class="nav nav-tabs mb-4" id="apartmentTabs" role="tablist">
-            <li class="nav-item" role="presentation">
-                <button class="nav-link active" id="rent-tab" data-bs-toggle="tab" data-bs-target="#rent-pane" type="button" role="tab" aria-controls="rent-pane" aria-selected="true">
-                    Rental Apartments <span class="badge bg-secondary ms-1">{{ apartments|selectattr('listing_type', 'equalto', 'rent')|list|length }}</span>
-                </button>
-            </li>
-            <li class="nav-item" role="presentation">
-                <button class="nav-link" id="buy-tab" data-bs-toggle="tab" data-bs-target="#buy-pane" type="button" role="tab" aria-controls="buy-pane" aria-selected="false">
-                    Properties for Sale <span class="badge bg-secondary ms-1">{{ apartments|selectattr('listing_type', 'equalto', 'buy')|list|length }}</span>
-                </button>
-            </li>
-        </ul>
+        <div class="d-flex align-items-center mb-3">
+            <ul class="nav nav-tabs flex-grow-1 border-bottom-0" id="apartmentTabs" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="rent-tab" data-bs-toggle="tab" data-bs-target="#rent-pane" type="button" role="tab" aria-controls="rent-pane" aria-selected="true">
+                        Rental Apartments <span class="badge bg-secondary ms-1">{{ apartments|selectattr('listing_type', 'equalto', 'rent')|list|length }}</span>
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="buy-tab" data-bs-toggle="tab" data-bs-target="#buy-pane" type="button" role="tab" aria-controls="buy-pane" aria-selected="false">
+                        Properties for Sale <span class="badge bg-secondary ms-1">{{ apartments|selectattr('listing_type', 'equalto', 'buy')|list|length }}</span>
+                    </button>
+                </li>
+            </ul>
+            <button type="button" class="btn btn-primary rounded-circle shadow-sm ms-3 d-flex justify-content-center align-items-center" style="width: 42px; height: 42px; padding: 0;" data-bs-toggle="modal" data-bs-target="#addApartmentModal" title="Add Tracking">
+                <i class="bi bi-plus-lg fs-5"></i>
+            </button>
+        </div>
 
         <div class="tab-content" id="apartmentTabsContent">
             {% macro apartment_table(table_id, apt_list, empty_msg) %}
@@ -40,6 +56,7 @@
                                     <th scope="col" style="width: 120px;">Image</th>
                                     <th scope="col">Details</th>
                                     <th scope="col" class="text-end">Price</th>
+                                    <th scope="col" class="text-end">Price/m²</th>
                                     <th scope="col" class="text-end">Rooms</th>
                                     <th scope="col" class="text-end">Size</th>
                                     <th scope="col">Location</th>
@@ -91,21 +108,25 @@
                                             <div class="small text-warning mt-1" title="Price has changed {{ pt.price_history|length - 1 }} times"><i class="bi bi-graph-down-arrow"></i> Price updated</div>
                                         {% endif %}
                                     </td>
-                                    <td class="text-end" data-order="{{ pt.current_price|default(0, true) }}">
-                                        <span class="fs-6 fw-semibold">{{ pt.current_price|default('?', true) }} €</span>
-                                        {% if pt.get_price_per_sqm() %}
-                                        <div class="small text-muted">{{ pt.get_price_per_sqm() }} €/m²</div>
-                                        {% endif %}
+                                    <td class="text-end text-nowrap" data-order="{{ pt.current_price|default(0, true) }}">
+                                        <span class="fs-6 fw-semibold">
+                                            {% if pt.current_price %}{{ '{:,.0f}'.format(pt.current_price).replace(',', ' ') }} €{% else %}?{% endif %}
+                                        </span>
                                     </td>
-                                    <td class="text-end" data-order="{{ pt.room_count|default(0, true) }}">
+                                    <td class="text-end text-nowrap" data-order="{{ pt.get_price_per_sqm()|default(0, true) }}">
+                                        {% if pt.get_price_per_sqm() %}
+                                        <span class="small text-muted">{{ '{:,.0f}'.format(pt.get_price_per_sqm()).replace(',', ' ') }} €</span>
+                                        {% else %}<span class="small text-muted">-</span>{% endif %}
+                                    </td>
+                                    <td class="text-end text-nowrap" data-order="{{ pt.room_count|default(0, true) }}">
                                         <span class="fs-6 fw-medium">{{ pt.room_count|default('?', true) }}</span> <span class="small text-muted">ZKB</span>
                                     </td>
-                                    <td class="text-end" data-order="{{ pt.size_sqm|default(0, true) }}">
+                                    <td class="text-end text-nowrap" data-order="{{ pt.size_sqm|default(0, true) }}">
                                         <span class="fs-6 fw-medium">{{ pt.size_sqm|default('?', true) }}</span> <span class="small text-muted">m²</span>
                                     </td>
                                     <td>
                                         <div class="text-wrap text-muted" style="max-width: 200px; font-size: 0.85rem;">
-                                            <i class="bi bi-geo-alt-fill text-secondary me-1"></i> {{ pt.clean_location }}
+                                            {{ pt.clean_location }}
                                         </div>
                                     </td>
                                     <td>
