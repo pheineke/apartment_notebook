@@ -68,9 +68,16 @@
                                 {% for pt in apt_list %}
                                 <tr class="{% if not pt.is_available %}table-danger text-muted{% endif %}">
                                     <td>
-                                        {% if pt.picture_url %}
+                                        {% set isList = pt.picture_url.startswith('[') if pt.picture_url else false %}
+                                        {% if isList %}
+                                            {% set main_pic = (pt.picture_url | fromjson)[0] %}
+                                        {% else %}
+                                            {% set main_pic = pt.picture_url %}
+                                        {% endif %}
+
+                                        {% if main_pic %}
                                         <a href="/apartment/{{ pt.id }}">
-                                            <img src="{{ pt.picture_url }}" class="img-thumbnail {% if not pt.is_available %} unavailable {% endif %}" style="max-height: 80px; border-radius: 8px; border: none; object-fit: cover; width: 100%;" alt="Appartement Bild">
+                                            <img src="{{ main_pic }}" class="img-thumbnail {% if not pt.is_available %} unavailable {% endif %}" style="max-height: 80px; border-radius: 8px; border: none; object-fit: cover; width: 100%;" alt="Appartement Bild">
                                         </a>
                                         {% else %}
                                         <div class="bg-light d-flex align-items-center justify-content-center text-muted img-thumbnail" style="height: 80px; width: 100%; font-size: 0.8rem; border-radius: 8px; border: none;">No Image</div>

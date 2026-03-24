@@ -7,9 +7,21 @@
 
 <div class="row">
     <div class="col-md-5">
-        <div class="card shadow-sm border-0 rounded-4 overflow-hidden mb-4">
-            {% if apt.picture_url %}
-            <img src="{{ apt.picture_url }}" class="img-fluid w-100 {% if not apt.is_available %} unavailable {% endif %}" style="object-fit: cover; max-height: 400px;" alt="{{ apt.title }}">
+        <div class="card shadow-sm border-0 rounded-4 overflow-hidden mb-4 position-relative">
+            {% set isList = apt.picture_url.startswith('[') if apt.picture_url else false %}
+            {% if isList %}
+                {% set main_pic = (apt.picture_url | fromjson)[0] %}
+            {% else %}
+                {% set main_pic = apt.picture_url %}
+            {% endif %}
+
+            {% if main_pic %}
+            <a href="#" data-bs-toggle="modal" data-bs-target="#imageLightboxModal" class="d-block position-relative">
+                <img src="{{ main_pic }}" class="img-fluid w-100 {% if not apt.is_available %} unavailable {% endif %}" style="object-fit: cover; max-height: 400px; transition: transform 0.2s;" alt="{{ apt.title }}" onmouseover="this.style.opacity='0.9';" onmouseout="this.style.opacity='1';">
+                <div class="position-absolute bottom-0 end-0 m-2">
+                    <span class="badge bg-dark bg-opacity-75 rounded-pill px-2 py-1"><i class="bi bi-arrows-fullscreen"></i> View Gallery</span>
+                </div>
+            </a>
             {% else %}
             <div class="bg-light d-flex align-items-center justify-content-center text-muted" style="height: 300px; width: 100%;">
                 <div class="text-center">
@@ -117,8 +129,16 @@
                         <span class="fw-medium ms-auto">{{ apt.source|capitalize if apt.source else 'Unknown' }}</span>
                     </div>
                 </div>
-                
-                <h5 class="fw-bold mb-3 mt-4">Price History</h5>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card shadow-sm border-0 rounded-4 mb-4">
+            <div class="card-body p-4">
+                <h5 class="fw-bold mb-3">Price History</h5>
                 
                 <!-- Chart Container -->
                 <div class="mb-4">
@@ -148,7 +168,45 @@
                         </tbody>
                     </table>
                 </div>
-                
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Lightbox Modal -->
+<div class="modal fade" id="imageLightboxModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg modal-fullscreen-lg-down">
+        <div class="modal-content bg-transparent border-0">
+            <div class="modal-header border-0 pb-0 justify-content-end">
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close" style="filter: invert(1); z-index: 1055;"></button>
+            </div>
+            <div class="modal-body text-center p-0 position-relative">
+                <div id="lightboxCarousel" class="carousel slide" data-bs-ride="false">
+                    <div class="carousel-inner">
+                        {% set isList = apt.picture_url.startswith('[') if apt.picture_url else false %}
+                        {% if isList %}
+                            {% set pics = apt.picture_url | fromjson %}
+                        {% else %}
+                            {% set pics = [apt.picture_url] if apt.picture_url else [] %}
+                        {% endif %}
+
+                        {% for pic in pics %}
+                        <div class="carousel-item {% if loop.first %}active{% endif %}">
+                            <img src="{{ pic }}" class="img-fluid rounded shadow" style="max-height: 85vh; object-fit: contain;" alt="Apartment Image {{ loop.index }}">
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% if pics|length > 1 %}
+                    <button class="carousel-control-prev" type="button" data-bs-target="#lightboxCarousel" data-bs-slide="prev" style="width: 5vw;">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#lightboxCarousel" data-bs-slide="next" style="width: 5vw;">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                    {% endif %}
+                </div>
             </div>
         </div>
     </div>

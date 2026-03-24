@@ -24,6 +24,8 @@
         .table > :not(caption) > * > * { border-bottom-color: #f0f0f0; padding: 1rem 0.5rem; vertical-align: middle; }
         .table-dark { --bs-table-bg: #f8f9fa; --bs-table-color: #555; }
         .table-dark th { font-weight: 500; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.5px; border-bottom: 2px solid #eaeaea !important; }
+        .table > tbody > tr > td:first-child, .table > thead > tr > th:first-child { padding-left: 1.5rem !important; }
+        .table > tbody > tr > td:last-child, .table > thead > tr > th:last-child { padding-right: 1.5rem !important; }
         
         .apartment-card img { max-height: 200px; object-fit: cover; }
         .unavailable { opacity: 0.6; filter: grayscale(100%); }
@@ -31,17 +33,19 @@
         .btn-minimal:hover { background: #f0f0f0; color: #111; }
         
         /* DataTables overrides */
+        div.dataTables_wrapper .row:first-child { padding: 1rem 1rem 0.5rem 1rem; }
+        div.dataTables_wrapper .row:last-child { padding: 0.5rem 1rem 1rem 1rem; }
         div.dataTables_wrapper div.dataTables_filter input { border-radius: 8px; border: 1px solid #ddd; padding: 0.375rem 0.75rem; }
         div.dataTables_wrapper div.dataTables_length select { border-radius: 8px; border: 1px solid #ddd; }
     </style>
 </head>
 <body>
-    <nav class="navbar mb-4">
-        <div class="container">
+    <nav class="navbar mb-4 shadow-sm pb-2 pt-2">
+        <div class="container-fluid px-4 px-xl-5">
             <a class="navbar-brand" href="/"><i class="bi bi-houses me-2"></i>Wohnungssucher</a>
         </div>
     </nav>
-    <div class="container pb-5">
+    <div class="container-fluid px-4 px-xl-5 pb-5">
         {% with messages = get_flashed_messages(with_categories=true) %}
           {% if messages %}
             {% for category, message in messages %}
