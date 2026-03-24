@@ -16,117 +16,141 @@
 
 <div class="row">
     <div class="col-12">
-        <div class="card shadow-sm">
-            <div class="card-body p-0">
-                <div class="table-responsive">
-                    <table id="apartmentsTable" class="table table-hover align-middle mb-0">
-                        <thead class="table-dark">
-                            <tr>
-                                <th scope="col" style="width: 120px;">Image</th>
-                                <th scope="col">Details</th>
-                                <th scope="col" class="text-end">Price</th>
-                                <th scope="col" class="text-end">Rooms</th>
-                                <th scope="col" class="text-end">Size</th>
-                                <th scope="col">Location</th>
-                                <th scope="col">Status</th>
-                                <th scope="col" class="text-center">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for pt in apartments %}
-                            <tr class="{% if not pt.is_available %}table-danger text-muted{% endif %}">
-                                <td>
-                                    {% if pt.picture_url %}
-                                    <a href="/apartment/{{ pt.id }}">
-                                        <img src="{{ pt.picture_url }}" class="img-thumbnail {% if not pt.is_available %} unavailable {% endif %}" style="max-height: 80px; border-radius: 8px; border: none; object-fit: cover; width: 100%;" alt="Appartement Bild">
-                                    </a>
-                                    {% else %}
-                                    <div class="bg-light d-flex align-items-center justify-content-center text-muted img-thumbnail" style="height: 80px; width: 100%; font-size: 0.8rem; border-radius: 8px; border: none;">No Image</div>
-                                    {% endif %}
-                                </td>
-                                <td>
-                                    <div class="fw-medium text-truncate" style="max-width: 250px;" title="{{ pt.title or 'Unknown Title' }}">
-                                        <a href="/apartment/{{ pt.id }}" class="text-decoration-none text-dark {% if not pt.is_available %}text-muted{% endif %}">
-                                            {{ pt.title or 'Unknown Title' }}
+        <ul class="nav nav-tabs mb-4" id="apartmentTabs" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="rent-tab" data-bs-toggle="tab" data-bs-target="#rent-pane" type="button" role="tab" aria-controls="rent-pane" aria-selected="true">
+                    Rental Apartments <span class="badge bg-secondary ms-1">{{ apartments|selectattr('listing_type', 'equalto', 'rent')|list|length }}</span>
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="buy-tab" data-bs-toggle="tab" data-bs-target="#buy-pane" type="button" role="tab" aria-controls="buy-pane" aria-selected="false">
+                    Properties for Sale <span class="badge bg-secondary ms-1">{{ apartments|selectattr('listing_type', 'equalto', 'buy')|list|length }}</span>
+                </button>
+            </li>
+        </ul>
+
+        <div class="tab-content" id="apartmentTabsContent">
+            {% macro apartment_table(table_id, apt_list, empty_msg) %}
+            <div class="card shadow-sm">
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table id="{{ table_id }}" class="table table-hover align-middle mb-0 apartment-table">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th scope="col" style="width: 120px;">Image</th>
+                                    <th scope="col">Details</th>
+                                    <th scope="col" class="text-end">Price</th>
+                                    <th scope="col" class="text-end">Rooms</th>
+                                    <th scope="col" class="text-end">Size</th>
+                                    <th scope="col">Location</th>
+                                    <th scope="col">Status</th>
+                                    <th scope="col" class="text-center">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for pt in apt_list %}
+                                <tr class="{% if not pt.is_available %}table-danger text-muted{% endif %}">
+                                    <td>
+                                        {% if pt.picture_url %}
+                                        <a href="/apartment/{{ pt.id }}">
+                                            <img src="{{ pt.picture_url }}" class="img-thumbnail {% if not pt.is_available %} unavailable {% endif %}" style="max-height: 80px; border-radius: 8px; border: none; object-fit: cover; width: 100%;" alt="Appartement Bild">
                                         </a>
-                                    </div>
-                                    <div class="small text-muted mt-1">
-                                        Added: {{ pt.date_added.strftime('%Y-%m-%d') }}
-                                        
-                                        {% if pt.other_links %}
-                                            {% set links = pt.other_links | fromjson %}
-                                            {% if links %}
-                                                <div class="mt-1 d-flex flex-wrap gap-1">
-                                                    <span class="badge bg-light text-dark border"><i class="bi bi-link me-1"></i>Also on:</span>
-                                                    {% for link in links %}
-                                                        <a href="{{ link }}" target="_blank" class="badge bg-white text-primary border text-decoration-none transition-all">
-                                                            {% if 'immobilienscout24.de' in link %} ImmoScout24
-                                                            {% elif 'immo.rheinpfalz.de' in link %} Rheinpfalz
-                                                            {% elif 'immowelt.de' in link %} Immowelt
-                                                            {% elif 'kleinanzeigen.de' in link %} Kleinanzeigen
-                                                            {% else %} Alternate Link {% endif %}
-                                                        </a>
-                                                    {% endfor %}
-                                                </div>
-                                            {% endif %}
+                                        {% else %}
+                                        <div class="bg-light d-flex align-items-center justify-content-center text-muted img-thumbnail" style="height: 80px; width: 100%; font-size: 0.8rem; border-radius: 8px; border: none;">No Image</div>
                                         {% endif %}
-                                        
-                                    </div>
-                                    {% if pt.price_history|length > 1 %}
-                                        <div class="small text-warning mt-1" title="Price has changed {{ pt.price_history|length - 1 }} times"><i class="bi bi-graph-down-arrow"></i> Price updated</div>
-                                    {% endif %}
-                                </td>
-                                <td class="text-end" data-order="{{ pt.current_price|default(0, true) }}">
-                                    <span class="fs-6 fw-semibold">{{ pt.current_price|default('?', true) }} €</span>
-                                    {% if pt.get_price_per_sqm() %}
-                                    <div class="small text-muted">{{ pt.get_price_per_sqm() }} €/m²</div>
-                                    {% endif %}
-                                </td>
-                                <td class="text-end" data-order="{{ pt.room_count|default(0, true) }}">
-                                    <span class="fs-6 fw-medium">{{ pt.room_count|default('?', true) }}</span> <span class="small text-muted">ZKB</span>
-                                </td>
-                                <td class="text-end" data-order="{{ pt.size_sqm|default(0, true) }}">
-                                    <span class="fs-6 fw-medium">{{ pt.size_sqm|default('?', true) }}</span> <span class="small text-muted">m²</span>
-                                </td>
-                                <td>
-                                    <div class="text-wrap text-muted" style="max-width: 200px; font-size: 0.85rem;">
-                                        <i class="bi bi-geo-alt-fill text-secondary me-1"></i> {{ pt.clean_location }}
-                                    </div>
-                                </td>
-                                <td>
-                                    {% if pt.is_available %}
-                                        <span class="badge rounded-pill bg-success-subtle text-success border border-success-subtle px-2 fw-normal">Available</span>
-                                    {% else %}
-                                        <span class="badge rounded-pill bg-danger-subtle text-danger border border-danger-subtle px-2 fw-normal">Offline</span>
-                                    {% endif %}
-                                </td>
-                                <td class="text-center">
-                                    <div class="btn-group btn-group-sm">
-                                        <a href="{{ pt.resolved_url or pt.original_url }}" target="_blank" class="btn btn-minimal" title="Open Source Link">
-                                            <i class="bi bi-box-arrow-up-right"></i>
-                                        </a>
-                                        <a href="/refresh/{{ pt.id }}" class="btn btn-minimal text-info" title="Refresh Data">
-                                            <i class="bi bi-arrow-clockwise"></i>
-                                        </a>
-                                        <form action="/delete/{{ pt.id }}" method="POST" class="d-inline" onsubmit="return confirm('Remove this from tracking?');">
-                                            <button type="submit" class="btn btn-minimal text-danger rounded-start-0" title="Delete">
-                                                <i class="bi bi-trash"></i>
-                                            </button>
-                                        </form>
-                                    </div>
-                                </td>
-                            </tr>
-                            {% else %}
-                            <tr>
-                                <td colspan="8" class="text-center text-muted py-5">
-                                    <h5>No apartments are being tracked yet.</h5>
-                                    <p>Paste a link above to start monitoring prices and availability!</p>
-                                </td>
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
+                                    </td>
+                                    <td>
+                                        <div class="fw-medium text-truncate" style="max-width: 250px;" title="{{ pt.title or 'Unknown Title' }}">
+                                            <a href="/apartment/{{ pt.id }}" class="text-decoration-none text-dark {% if not pt.is_available %}text-muted{% endif %}">
+                                                {{ pt.title or 'Unknown Title' }}
+                                            </a>
+                                        </div>
+                                        <div class="small text-muted mt-1">
+                                            Added: {{ pt.date_added.strftime('%Y-%m-%d') }}
+                                            
+                                            {% if pt.other_links %}
+                                                {% set links = pt.other_links | fromjson %}
+                                                {% if links %}
+                                                    <div class="mt-1 d-flex flex-wrap gap-1">
+                                                        <span class="badge bg-light text-dark border"><i class="bi bi-link me-1"></i>Also on:</span>
+                                                        {% for link in links %}
+                                                            <a href="{{ link }}" target="_blank" class="badge bg-white text-primary border text-decoration-none transition-all">
+                                                                {% if 'immobilienscout24.de' in link %} ImmoScout24
+                                                                {% elif 'immo.rheinpfalz.de' in link %} Rheinpfalz
+                                                                {% elif 'immowelt.de' in link %} Immowelt
+                                                                {% elif 'kleinanzeigen.de' in link %} Kleinanzeigen
+                                                                {% else %} Alternate Link {% endif %}
+                                                            </a>
+                                                        {% endfor %}
+                                                    </div>
+                                                {% endif %}
+                                            {% endif %}
+                                            
+                                        </div>
+                                        {% if pt.price_history|length > 1 %}
+                                            <div class="small text-warning mt-1" title="Price has changed {{ pt.price_history|length - 1 }} times"><i class="bi bi-graph-down-arrow"></i> Price updated</div>
+                                        {% endif %}
+                                    </td>
+                                    <td class="text-end" data-order="{{ pt.current_price|default(0, true) }}">
+                                        <span class="fs-6 fw-semibold">{{ pt.current_price|default('?', true) }} €</span>
+                                        {% if pt.get_price_per_sqm() %}
+                                        <div class="small text-muted">{{ pt.get_price_per_sqm() }} €/m²</div>
+                                        {% endif %}
+                                    </td>
+                                    <td class="text-end" data-order="{{ pt.room_count|default(0, true) }}">
+                                        <span class="fs-6 fw-medium">{{ pt.room_count|default('?', true) }}</span> <span class="small text-muted">ZKB</span>
+                                    </td>
+                                    <td class="text-end" data-order="{{ pt.size_sqm|default(0, true) }}">
+                                        <span class="fs-6 fw-medium">{{ pt.size_sqm|default('?', true) }}</span> <span class="small text-muted">m²</span>
+                                    </td>
+                                    <td>
+                                        <div class="text-wrap text-muted" style="max-width: 200px; font-size: 0.85rem;">
+                                            <i class="bi bi-geo-alt-fill text-secondary me-1"></i> {{ pt.clean_location }}
+                                        </div>
+                                    </td>
+                                    <td>
+                                        {% if pt.is_available %}
+                                            <span class="badge rounded-pill bg-success-subtle text-success border border-success-subtle px-2 fw-normal">Available</span>
+                                        {% else %}
+                                            <span class="badge rounded-pill bg-danger-subtle text-danger border border-danger-subtle px-2 fw-normal">Offline</span>
+                                        {% endif %}
+                                    </td>
+                                    <td class="text-center">
+                                        <div class="btn-group btn-group-sm">
+                                            <a href="{{ pt.resolved_url or pt.original_url }}" target="_blank" class="btn btn-minimal" title="Open Source Link">
+                                                <i class="bi bi-box-arrow-up-right"></i>
+                                            </a>
+                                            <a href="/refresh/{{ pt.id }}" class="btn btn-minimal text-info" title="Refresh Data">
+                                                <i class="bi bi-arrow-clockwise"></i>
+                                            </a>
+                                            <form action="/delete/{{ pt.id }}" method="POST" class="d-inline" onsubmit="return confirm('Remove this from tracking?');">
+                                                <button type="submit" class="btn btn-minimal text-danger rounded-start-0" title="Delete">
+                                                    <i class="bi bi-trash"></i>
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% else %}
+                                <tr>
+                                    <td colspan="8" class="text-center text-muted py-5">
+                                        <h5>{{ empty_msg }}</h5>
+                                        <p>Paste a link above to start monitoring prices and availability!</p>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
+            </div>
+            {% endmacro %}
+
+            <div class="tab-pane fade show active" id="rent-pane" role="tabpanel" aria-labelledby="rent-tab" tabindex="0">
+                {{ apartment_table('rentTable', apartments|selectattr('listing_type', 'equalto', 'rent')|list, "No rental apartments are being tracked yet.") }}
+            </div>
+            <div class="tab-pane fade" id="buy-pane" role="tabpanel" aria-labelledby="buy-tab" tabindex="0">
+                {{ apartment_table('buyTable', apartments|selectattr('listing_type', 'equalto', 'buy')|list, "No properties for sale are being tracked yet.") }}
             </div>
         </div>
     </div>

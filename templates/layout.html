@@ -62,19 +62,17 @@
     
     <script>
         $(document).ready(function() {
-            if ($('#apartmentsTable').length) {
-                $('#apartmentsTable').DataTable({
-                    order: [[1, 'asc']], /* Default sort by Details/Title */
-                    responsive: true,
-                    language: {
-                        search: "",
-                        searchPlaceholder: "Search apartments..."
-                    },
-                    columnDefs: [
-                        { orderable: false, targets: [0, 7] } // disable sorting for Image and Actions
-                    ]
-                });
-            }
+            $('.apartment-table').DataTable({
+                order: [[1, 'asc']], /* Default sort by Details/Title */
+                responsive: true,
+                language: {
+                    search: "",
+                    searchPlaceholder: "Search listings..."
+                },
+                columnDefs: [
+                    { orderable: false, targets: [0, 7] } // disable sorting for Image and Actions
+                ]
+            });
         });
     </script>
 </body>

@@ -15,6 +15,7 @@ class Apartment(db.Model):
     location = db.Column(db.String(200), nullable=True)
     picture_url = db.Column(db.String(500), nullable=True)
     other_links = db.Column(db.Text, nullable=True) # Stored as JSON list of URLs or comma-separated
+    listing_type = db.Column(db.String(10), nullable=True) # 'rent' or 'buy'
     is_available = db.Column(db.Boolean, default=True)
     date_added = db.Column(db.DateTime, default=datetime.utcnow)
     

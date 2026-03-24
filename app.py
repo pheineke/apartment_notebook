@@ -117,6 +117,9 @@ def update_apartment_with_data(apt, data):
     apt.picture_url = data.get('picture_url', apt.picture_url)
     apt.is_available = True # If scraped successfully, it must be available
     
+    if data.get('price'):
+        apt.listing_type = 'rent' if data.get('price') < 10000 else 'buy'
+    
     # Store the resolved URL if provided by scraper (e.g., following redirects from Rheinpfalz to Immowelt)
     apt.resolved_url = data.get('resolved_url', apt.resolved_url)
 
