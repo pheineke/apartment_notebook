@@ -19,16 +19,17 @@
         <div class="card shadow-sm">
             <div class="card-body p-0">
                 <div class="table-responsive">
-                    <table class="table table-hover table-striped align-middle mb-0">
+                    <table id="apartmentsTable" class="table table-hover align-middle mb-0">
                         <thead class="table-dark">
                             <tr>
                                 <th scope="col" style="width: 120px;">Image</th>
                                 <th scope="col">Details</th>
-                                <th scope="col">Price</th>
-                                <th scope="col">Rooms/Size</th>
+                                <th scope="col" class="text-end">Price</th>
+                                <th scope="col" class="text-end">Rooms</th>
+                                <th scope="col" class="text-end">Size</th>
                                 <th scope="col">Location</th>
                                 <th scope="col">Status</th>
-                                <th scope="col" class="text-end">Actions</th>
+                                <th scope="col" class="text-center">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -36,14 +37,16 @@
                             <tr class="{% if not pt.is_available %}table-danger text-muted{% endif %}">
                                 <td>
                                     {% if pt.picture_url %}
-                                    <img src="{{ pt.picture_url }}" class="img-thumbnail {% if not pt.is_available %} unavailable {% endif %}" style="max-height: 80px; object-fit: cover; width: 100%;" alt="Appartement Bild">
+                                    <a href="/apartment/{{ pt.id }}">
+                                        <img src="{{ pt.picture_url }}" class="img-thumbnail {% if not pt.is_available %} unavailable {% endif %}" style="max-height: 80px; border-radius: 8px; border: none; object-fit: cover; width: 100%;" alt="Appartement Bild">
+                                    </a>
                                     {% else %}
-                                    <div class="bg-light d-flex align-items-center justify-content-center text-muted img-thumbnail" style="height: 80px; width: 100%; font-size: 0.8rem;">No Image</div>
+                                    <div class="bg-light d-flex align-items-center justify-content-center text-muted img-thumbnail" style="height: 80px; width: 100%; font-size: 0.8rem; border-radius: 8px; border: none;">No Image</div>
                                     {% endif %}
                                 </td>
                                 <td>
-                                    <div class="fw-bold text-truncate" style="max-width: 250px;" title="{{ pt.title or 'Unknown Title' }}">
-                                        <a href="{{ pt.resolved_url or pt.original_url }}" target="_blank" class="text-decoration-none {% if not pt.is_available %}text-muted{% endif %}">
+                                    <div class="fw-medium text-truncate" style="max-width: 250px;" title="{{ pt.title or 'Unknown Title' }}">
+                                        <a href="/apartment/{{ pt.id }}" class="text-decoration-none text-dark {% if not pt.is_available %}text-muted{% endif %}">
                                             {{ pt.title or 'Unknown Title' }}
                                         </a>
                                     </div>
@@ -53,11 +56,10 @@
                                         {% if pt.other_links %}
                                             {% set links = pt.other_links | fromjson %}
                                             {% if links %}
-                                                <div class="mt-1">
-                                                    <span class="badge bg-secondary">Also on:</span>
+                                                <div class="mt-1 d-flex flex-wrap gap-1">
+                                                    <span class="badge bg-light text-dark border"><i class="bi bi-link me-1"></i>Also on:</span>
                                                     {% for link in links %}
-                                                        <a href="{{ link }}" target="_blank" class="text-decoration-none ms-1">
-                                                            <i class="bi bi-link-45deg"></i>
+                                                        <a href="{{ link }}" target="_blank" class="badge bg-white text-primary border text-decoration-none transition-all">
                                                             {% if 'immobilienscout24.de' in link %} ImmoScout24
                                                             {% elif 'immo.rheinpfalz.de' in link %} Rheinpfalz
                                                             {% elif 'immowelt.de' in link %} Immowelt
@@ -71,44 +73,52 @@
                                         
                                     </div>
                                     {% if pt.price_history|length > 1 %}
-                                        <div class="small text-warning" title="Price has changed {{ pt.price_history|length - 1 }} times">📉 Price updated</div>
+                                        <div class="small text-warning mt-1" title="Price has changed {{ pt.price_history|length - 1 }} times"><i class="bi bi-graph-down-arrow"></i> Price updated</div>
                                     {% endif %}
                                 </td>
-                                <td>
-                                    <span class="fs-5 fw-semibold">{{ pt.current_price|default('?', true) }} €</span>
+                                <td class="text-end" data-order="{{ pt.current_price|default(0, true) }}">
+                                    <span class="fs-6 fw-semibold">{{ pt.current_price|default('?', true) }} €</span>
                                     {% if pt.get_price_per_sqm() %}
                                     <div class="small text-muted">{{ pt.get_price_per_sqm() }} €/m²</div>
                                     {% endif %}
                                 </td>
-                                <td>
-                                    <div><strong>{{ pt.room_count|default('?', true) }}</strong> <span class="small">ZKB</span></div>
-                                    <div><strong>{{ pt.size_sqm|default('?', true) }}</strong> <span class="small">m²</span></div>
+                                <td class="text-end" data-order="{{ pt.room_count|default(0, true) }}">
+                                    <span class="fs-6 fw-medium">{{ pt.room_count|default('?', true) }}</span> <span class="small text-muted">ZKB</span>
+                                </td>
+                                <td class="text-end" data-order="{{ pt.size_sqm|default(0, true) }}">
+                                    <span class="fs-6 fw-medium">{{ pt.size_sqm|default('?', true) }}</span> <span class="small text-muted">m²</span>
                                 </td>
                                 <td>
-                                    <div class="text-wrap" style="max-width: 200px; font-size: 0.9rem;">
-                                        <i class="bi bi-geo-alt"></i> {{ pt.location or 'Unknown' }}
+                                    <div class="text-wrap text-muted" style="max-width: 200px; font-size: 0.85rem;">
+                                        <i class="bi bi-geo-alt-fill text-secondary me-1"></i> {{ pt.clean_location }}
                                     </div>
                                 </td>
                                 <td>
                                     {% if pt.is_available %}
-                                        <span class="badge bg-success">Available</span>
+                                        <span class="badge rounded-pill bg-success-subtle text-success border border-success-subtle px-2 fw-normal">Available</span>
                                     {% else %}
-                                        <span class="badge bg-danger">Offline</span>
+                                        <span class="badge rounded-pill bg-danger-subtle text-danger border border-danger-subtle px-2 fw-normal">Offline</span>
                                     {% endif %}
                                 </td>
-                                <td class="text-end">
-                                    <div class="btn-group-vertical btn-group-sm">
-                                        <a href="{{ pt.resolved_url or pt.original_url }}" target="_blank" class="btn btn-outline-secondary">Open</a>
-                                        <a href="/refresh/{{ pt.id }}" class="btn btn-outline-info">Refresh</a>
+                                <td class="text-center">
+                                    <div class="btn-group btn-group-sm">
+                                        <a href="{{ pt.resolved_url or pt.original_url }}" target="_blank" class="btn btn-minimal" title="Open Source Link">
+                                            <i class="bi bi-box-arrow-up-right"></i>
+                                        </a>
+                                        <a href="/refresh/{{ pt.id }}" class="btn btn-minimal text-info" title="Refresh Data">
+                                            <i class="bi bi-arrow-clockwise"></i>
+                                        </a>
                                         <form action="/delete/{{ pt.id }}" method="POST" class="d-inline" onsubmit="return confirm('Remove this from tracking?');">
-                                            <button type="submit" class="btn btn-outline-danger w-100 rounded-top-0">Delete</button>
+                                            <button type="submit" class="btn btn-minimal text-danger rounded-start-0" title="Delete">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
                                         </form>
                                     </div>
                                 </td>
                             </tr>
                             {% else %}
                             <tr>
-                                <td colspan="7" class="text-center text-muted py-5">
+                                <td colspan="8" class="text-center text-muted py-5">
                                     <h5>No apartments are being tracked yet.</h5>
                                     <p>Paste a link above to start monitoring prices and availability!</p>
                                 </td>

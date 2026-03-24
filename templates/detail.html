@@ -1,0 +1,153 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="mb-3">
+    <a href="/" class="text-decoration-none text-muted"><i class="bi bi-arrow-left me-1"></i>Back to List</a>
+</div>
+
+<div class="row">
+    <div class="col-md-5">
+        <div class="card shadow-sm border-0 rounded-4 overflow-hidden mb-4">
+            {% if apt.picture_url %}
+            <img src="{{ apt.picture_url }}" class="img-fluid w-100 {% if not apt.is_available %} unavailable {% endif %}" style="object-fit: cover; max-height: 400px;" alt="{{ apt.title }}">
+            {% else %}
+            <div class="bg-light d-flex align-items-center justify-content-center text-muted" style="height: 300px; width: 100%;">
+                <div class="text-center">
+                    <i class="bi bi-image" style="font-size: 3rem;"></i>
+                    <p class="mt-2">No Image Available</p>
+                </div>
+            </div>
+            {% endif %}
+            
+            {% if not apt.is_available %}
+            <div class="position-absolute top-0 start-0 m-3">
+                <span class="badge bg-danger rounded-pill px-3 py-2 fs-6">Offline / Unavailable</span>
+            </div>
+            {% endif %}
+        </div>
+        
+        <div class="card shadow-sm border-0 rounded-4 mb-4">
+            <div class="card-body">
+                <h5 class="card-title fw-bold mb-3">Links & Actions</h5>
+                
+                <div class="d-grid gap-2">
+                    <a href="{{ apt.resolved_url or apt.original_url }}" target="_blank" class="btn btn-primary d-flex align-items-center justify-content-center">
+                        <i class="bi bi-box-arrow-up-right me-2"></i> Open Source Listing
+                    </a>
+                    
+                    <a href="/refresh/{{ apt.id }}" class="btn btn-outline-info d-flex align-items-center justify-content-center">
+                        <i class="bi bi-arrow-clockwise me-2"></i> Refresh Data
+                    </a>
+                </div>
+                
+                {% if apt.other_links %}
+                    {% set links = apt.other_links | fromjson %}
+                    {% if links %}
+                    <hr class="my-3">
+                    <h6 class="fw-medium mb-2 text-muted">Also available on:</h6>
+                    <div class="d-flex flex-column gap-2">
+                        {% for link in links %}
+                        <a href="{{ link }}" target="_blank" class="text-decoration-none text-primary d-flex align-items-center p-2 border rounded hover-bg-light">
+                            <i class="bi bi-link-45deg me-2 fs-5"></i>
+                            <span class="text-truncate">
+                                {% if 'immobilienscout24.de' in link %} ImmoScout24
+                                {% elif 'immo.rheinpfalz.de' in link %} Rheinpfalz
+                                {% elif 'immowelt.de' in link %} Immowelt
+                                {% elif 'kleinanzeigen.de' in link %} Kleinanzeigen
+                                {% else %} {{ link }} {% endif %}
+                            </span>
+                        </a>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-7">
+        <div class="card shadow-sm border-0 rounded-4 mb-4">
+            <div class="card-body p-4">
+                <div class="d-flex justify-content-between align-items-start mb-2">
+                    <h2 class="fw-bold mb-0">{{ apt.title or 'Unknown Title' }}</h2>
+                </div>
+                
+                <p class="text-muted fs-5 mb-4">
+                    <i class="bi bi-geo-alt-fill text-secondary me-2"></i>{{ apt.clean_location }}
+                </p>
+                
+                <div class="row g-3 mb-4">
+                    <div class="col-sm-4">
+                        <div class="p-3 bg-light rounded-3 text-center">
+                            <h3 class="text-primary fw-bold mb-0">{{ apt.current_price|default('?', true) }} €</h3>
+                            <span class="text-muted small text-uppercase">Price</span>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="p-3 bg-light rounded-3 text-center">
+                            <h3 class="fw-bold mb-0">{{ apt.room_count|default('?', true) }}</h3>
+                            <span class="text-muted small text-uppercase">Rooms</span>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="p-3 bg-light rounded-3 text-center">
+                            <h3 class="fw-bold mb-0">{{ apt.size_sqm|default('?', true) }} m²</h3>
+                            <span class="text-muted small text-uppercase">Size</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row g-3 mb-4">
+                    {% if apt.get_price_per_sqm() %}
+                    <div class="col-sm-6">
+                        <div class="d-flex border-bottom pb-2">
+                            <span class="text-muted w-50">Price per m²</span>
+                            <span class="fw-medium ms-auto">{{ apt.get_price_per_sqm() }} €/m²</span>
+                        </div>
+                    </div>
+                    {% endif %}
+                    
+                    <div class="col-sm-6">
+                        <div class="d-flex border-bottom pb-2">
+                            <span class="text-muted w-50">Date Added</span>
+                            <span class="fw-medium ms-auto">{{ apt.date_added.strftime('%Y-%m-%d') }}</span>
+                        </div>
+                    </div>
+                    
+                    <div class="col-sm-6">
+                        <div class="d-flex border-bottom pb-2">
+                            <span class="text-muted w-50">Source</span>
+                            <span class="fw-medium ms-auto">{{ apt.source|capitalize if apt.source else 'Unknown' }}</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <h5 class="fw-bold mb-3 mt-4">Price History</h5>
+                <div class="table-responsive bg-light p-3 rounded-3">
+                    <table class="table table-borderless table-sm mb-0">
+                        <thead>
+                            <tr class="text-muted small text-uppercase border-bottom">
+                                <th>Date</th>
+                                <th class="text-end">Price</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for record in apt.price_history|sort(attribute='date_recorded', reverse=True) %}
+                            <tr>
+                                <td>{{ record.date_recorded.strftime('%Y-%m-%d %H:%M') }}</td>
+                                <td class="text-end fw-medium">{{ record.price }} €</td>
+                            </tr>
+                            {% else %}
+                            <tr>
+                                <td colspan="2" class="text-center text-muted py-2">No price changes recorded</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

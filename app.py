@@ -27,6 +27,11 @@ def index():
     apartments = Apartment.query.order_by(Apartment.date_added.desc()).all()
     return render_template('index.html', apartments=apartments)
 
+@app.route('/apartment/<int:apt_id>')
+def apartment_detail(apt_id):
+    apt = Apartment.query.get_or_404(apt_id)
+    return render_template('detail.html', apt=apt)
+
 @app.route('/add', methods=['POST'])
 def add_apartment():
     url = request.form.get('url')
