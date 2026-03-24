@@ -1,0 +1,1240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wohnungssucher Dashboard</title>
+    <!-- Use Bootstrap for quick styling -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .apartment-card img { max-height: 200px; object-fit: cover; }
+        .unavailable { opacity: 0.6; grayscale(100%); }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-dark bg-dark mb-4">
+        <div class="container">
+            <a class="navbar-brand" href="/">Wohnungssucher</a>
+        </div>
+    </nav>
+    <div class="container">
+        
+          
+        
+
+        
+<div class="row mb-4">
+    <div class="col-md-10 mx-auto">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <form action="/add" method="POST" class="d-flex gap-2">
+                    <input type="url" name="url" class="form-control" placeholder="Paste apartment URL here (ImmoScout24, Kleinanzeigen, etc...)" required>
+                    <button type="submit" class="btn btn-primary">Add Tracking</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card shadow-sm">
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover table-striped align-middle mb-0">
+                        <thead class="table-dark">
+                            <tr>
+                                <th scope="col" style="width: 120px;">Image</th>
+                                <th scope="col">Details</th>
+                                <th scope="col">Price</th>
+                                <th scope="col">Rooms/Size</th>
+                                <th scope="col">Location</th>
+                                <th scope="col">Status</th>
+                                <th scope="col" class="text-end">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            
+                            <tr class="">
+                                <td>
+                                    
+                                    <img src="https://img.kleinanzeigen.de/api/v1/prod-ads/images/04/0403f625-c9e3-411b-8ff3-5123027bcb5a?rule=$_59.JPG" class="img-thumbnail " style="max-height: 80px; object-fit: cover; width: 100%;" alt="Appartement Bild">
+                                    
+                                </td>
+                                <td>
+                                    <div class="fw-bold text-truncate" style="max-width: 250px;" title="1 Zimmer -Wohnung ab 01.06.2026 zu vermieten Nähe UNI in Rheinland-Pfalz - Kaiserslautern | kleinanzeigen.de">
+                                        <a href="https://www.kleinanzeigen.de/s-anzeige/1-zimmer-wohnung-ab-01-06-2026-zu-vermieten-naehe-uni/3349797378-203-5473" target="_blank" class="text-decoration-none ">
+                                            1 Zimmer -Wohnung ab 01.06.2026 zu vermieten Nähe UNI in Rheinland-Pfalz - Kaiserslautern | kleinanzeigen.de
+                                        </a>
+                                    </div>
+                                    <div class="small text-muted mt-1">
+                                        Added: 2026-03-24
+                                        
+                                        
+                                        
+                                    </div>
+                                    
+                                </td>
+                                <td>
+                                    <span class="fs-5 fw-semibold">500.0 €</span>
+                                    
+                                </td>
+                                <td>
+                                    <div><strong>?</strong> <span class="small">ZKB</span></div>
+                                    <div><strong>?</strong> <span class="small">m²</span></div>
+                                </td>
+                                <td>
+                                    <div class="text-wrap" style="max-width: 200px; font-size: 0.9rem;">
+                                        <i class="bi bi-geo-alt"></i> Unknown
+                                    </div>
+                                </td>
+                                <td>
+                                    
+                                        <span class="badge bg-success">Available</span>
+                                    
+                                </td>
+                                <td class="text-end">
+                                    <div class="btn-group-vertical btn-group-sm">
+                                        <a href="https://www.kleinanzeigen.de/s-anzeige/1-zimmer-wohnung-ab-01-06-2026-zu-vermieten-naehe-uni/3349797378-203-5473" target="_blank" class="btn btn-outline-secondary">Open</a>
+                                        <a href="/refresh/1" class="btn btn-outline-info">Refresh</a>
+                                        <form action="/delete/1" method="POST" class="d-inline" onsubmit="return confirm('Remove this from tracking?');">
+                                            <button type="submit" class="btn btn-outline-danger w-100 rounded-top-0">Delete</button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                            
+                            <tr class="">
+                                <td>
+                                    
+                                    <img src="https://img.kleinanzeigen.de/api/v1/prod-ads/images/6d/6d9906aa-785e-4320-a424-f315f095798b?rule=$_59.JPG" class="img-thumbnail " style="max-height: 80px; object-fit: cover; width: 100%;" alt="Appartement Bild">
+                                    
+                                </td>
+                                <td>
+                                    <div class="fw-bold text-truncate" style="max-width: 250px;" title="Ruhige Maisonette-Wohnung - Uninähe &amp;amp; möbliert - ab April/Mai">
+                                        <a href="https://www.kleinanzeigen.de/s-anzeige/ruhige-maisonette-wohnung-uninaehe-moebliert-ab-april-mai/3349730444-203-5473" target="_blank" class="text-decoration-none ">
+                                            Ruhige Maisonette-Wohnung - Uninähe &amp;amp; möbliert - ab April/Mai
+                                        </a>
+                                    </div>
+                                    <div class="small text-muted mt-1">
+                                        Added: 2026-03-24
+                                        
+                                        
+                                        
+                                    </div>
+                                    
+                                </td>
+                                <td>
+                                    <span class="fs-5 fw-semibold">550.0 €</span>
+                                    
+                                    <div class="small text-muted">13.75 €/m²</div>
+                                    
+                                </td>
+                                <td>
+                                    <div><strong>2.0</strong> <span class="small">ZKB</span></div>
+                                    <div><strong>40.0</strong> <span class="small">m²</span></div>
+                                </td>
+                                <td>
+                                    <div class="text-wrap" style="max-width: 200px; font-size: 0.9rem;">
+                                        <i class="bi bi-geo-alt"></i> 67663 Rheinland-Pfalz - Kaiserslautern
+                                    </div>
+                                </td>
+                                <td>
+                                    
+                                        <span class="badge bg-success">Available</span>
+                                    
+                                </td>
+                                <td class="text-end">
+                                    <div class="btn-group-vertical btn-group-sm">
+                                        <a href="https://www.kleinanzeigen.de/s-anzeige/ruhige-maisonette-wohnung-uninaehe-moebliert-ab-april-mai/3349730444-203-5473" target="_blank" class="btn btn-outline-secondary">Open</a>
+                                        <a href="/refresh/2" class="btn btn-outline-info">Refresh</a>
+                                        <form action="/delete/2" method="POST" class="d-inline" onsubmit="return confirm('Remove this from tracking?');">
+                                            <button type="submit" class="btn btn-outline-danger w-100 rounded-top-0">Delete</button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                            
+                            <tr class="">
+                                <td>
+                                    
+                                    <img src="https://img.kleinanzeigen.de/api/v1/prod-ads/images/33/33f0a1ae-591b-4fa0-8fd1-65d31af114c6?rule=$_59.JPG" class="img-thumbnail " style="max-height: 80px; object-fit: cover; width: 100%;" alt="Appartement Bild">
+                                    
+                                </td>
+                                <td>
+                                    <div class="fw-bold text-truncate" style="max-width: 250px;" title="Frisch sanierte 2-Zimmer-Wohnung in stadtnaher Lage">
+                                        <a href="https://www.kleinanzeigen.de/s-anzeige/frisch-sanierte-2-zimmer-wohnung-in-stadtnaher-lage/3357122258-203-5473" target="_blank" class="text-decoration-none ">
+                                            Frisch sanierte 2-Zimmer-Wohnung in stadtnaher Lage
+                                        </a>
+                                    </div>
+                                    <div class="small text-muted mt-1">
+                                        Added: 2026-03-24
+                                        
+                                        
+                                        
+                                    </div>
+                                    
+                                </td>
+                                <td>
+                                    <span class="fs-5 fw-semibold">588.0 €</span>
+                                    
+                                    <div class="small text-muted">14.0 €/m²</div>
+                                    
+                                </td>
+                                <td>
+                                    <div><strong>2.0</strong> <span class="small">ZKB</span></div>
+                                    <div><strong>42.0</strong> <span class="small">m²</span></div>
+                                </td>
+                                <td>
+                                    <div class="text-wrap" style="max-width: 200px; font-size: 0.9rem;">
+                                        <i class="bi bi-geo-alt"></i> 67663 Rheinland-Pfalz - Kaiserslautern
+                                    </div>
+                                </td>
+                                <td>
+                                    
+                                        <span class="badge bg-success">Available</span>
+                                    
+                                </td>
+                                <td class="text-end">
+                                    <div class="btn-group-vertical btn-group-sm">
+                                        <a href="https://www.kleinanzeigen.de/s-anzeige/frisch-sanierte-2-zimmer-wohnung-in-stadtnaher-lage/3357122258-203-5473" target="_blank" class="btn btn-outline-secondary">Open</a>
+                                        <a href="/refresh/3" class="btn btn-outline-info">Refresh</a>
+                                        <form action="/delete/3" method="POST" class="d-inline" onsubmit="return confirm('Remove this from tracking?');">
+                                            <button type="submit" class="btn btn-outline-danger w-100 rounded-top-0">Delete</button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                            
+                            <tr class="">
+                                <td>
+                                    
+                                    <img src="https://img.kleinanzeigen.de/api/v1/prod-ads/images/6a/6a57141c-869d-4b71-b286-e76ee3342ec2?rule=$_59.JPG" class="img-thumbnail " style="max-height: 80px; object-fit: cover; width: 100%;" alt="Appartement Bild">
+                                    
+                                </td>
+                                <td>
+                                    <div class="fw-bold text-truncate" style="max-width: 250px;" title="Helle gut geschnittene 3 ZKBB-Wohnung">
+                                        <a href="https://www.kleinanzeigen.de/s-anzeige/helle-gut-geschnittene-3-zkbb-wohnung/3356885511-203-5469" target="_blank" class="text-decoration-none ">
+                                            Helle gut geschnittene 3 ZKBB-Wohnung
+                                        </a>
+                                    </div>
+                                    <div class="small text-muted mt-1">
+                                        Added: 2026-03-24
+                                        
+                                        
+                                        
+                                    </div>
+                                    
+                                </td>
+                                <td>
+                                    <span class="fs-5 fw-semibold">530.0 €</span>
+                                    
+                                    <div class="small text-muted">8.28 €/m²</div>
+                                    
+                                </td>
+                                <td>
+                                    <div><strong>3.0</strong> <span class="small">ZKB</span></div>
+                                    <div><strong>64.0</strong> <span class="small">m²</span></div>
+                                </td>
+                                <td>
+                                    <div class="text-wrap" style="max-width: 200px; font-size: 0.9rem;">
+                                        <i class="bi bi-geo-alt"></i> 67659 Rheinland-Pfalz - Kaiserslautern
+                                    </div>
+                                </td>
+                                <td>
+                                    
+                                        <span class="badge bg-success">Available</span>
+                                    
+                                </td>
+                                <td class="text-end">
+                                    <div class="btn-group-vertical btn-group-sm">
+                                        <a href="https://www.kleinanzeigen.de/s-anzeige/helle-gut-geschnittene-3-zkbb-wohnung/3356885511-203-5469" target="_blank" class="btn btn-outline-secondary">Open</a>
+                                        <a href="/refresh/4" class="btn btn-outline-info">Refresh</a>
+                                        <form action="/delete/4" method="POST" class="d-inline" onsubmit="return confirm('Remove this from tracking?');">
+                                            <button type="submit" class="btn btn-outline-danger w-100 rounded-top-0">Delete</button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                            
+                            <tr class="">
+                                <td>
+                                    
+                                    <img src="https://img.kleinanzeigen.de/api/v1/prod-ads/images/ea/ea3d78fb-1a52-4144-95f8-7c918ebff6a9?rule=$_59.JPG" class="img-thumbnail " style="max-height: 80px; object-fit: cover; width: 100%;" alt="Appartement Bild">
+                                    
+                                </td>
+                                <td>
+                                    <div class="fw-bold text-truncate" style="max-width: 250px;" title="Helle 4-Zimmer Dachgeschosswohnung mit Balkon in Kaiserslautern">
+                                        <a href="https://www.kleinanzeigen.de/s-anzeige/helle-4-zimmer-dachgeschosswohnung-mit-balkon-in-kaiserslautern/3342594904-203-5467" target="_blank" class="text-decoration-none ">
+                                            Helle 4-Zimmer Dachgeschosswohnung mit Balkon in Kaiserslautern
+                                        </a>
+                                    </div>
+                                    <div class="small text-muted mt-1">
+                                        Added: 2026-03-24
+                                        
+                                        
+                                        
+                                    </div>
+                                    
+                                </td>
+                                <td>
+                                    <span class="fs-5 fw-semibold">790.0 €</span>
+                                    
+                                    <div class="small text-muted">9.68 €/m²</div>
+                                    
+                                </td>
+                                <td>
+                                    <div><strong>4.0</strong> <span class="small">ZKB</span></div>
+                                    <div><strong>81.62</strong> <span class="small">m²</span></div>
+                                </td>
+                                <td>
+                                    <div class="text-wrap" style="max-width: 200px; font-size: 0.9rem;">
+                                        <i class="bi bi-geo-alt"></i> 67657 Rheinland-Pfalz - Kaiserslautern
+                                    </div>
+                                </td>
+                                <td>
+                                    
+                                        <span class="badge bg-success">Available</span>
+                                    
+                                </td>
+                                <td class="text-end">
+                                    <div class="btn-group-vertical btn-group-sm">
+                                        <a href="https://www.kleinanzeigen.de/s-anzeige/helle-4-zimmer-dachgeschosswohnung-mit-balkon-in-kaiserslautern/3342594904-203-5467" target="_blank" class="btn btn-outline-secondary">Open</a>
+                                        <a href="/refresh/5" class="btn btn-outline-info">Refresh</a>
+                                        <form action="/delete/5" method="POST" class="d-inline" onsubmit="return confirm('Remove this from tracking?');">
+                                            <button type="submit" class="btn btn-outline-danger w-100 rounded-top-0">Delete</button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                            
+                            <tr class="">
+                                <td>
+                                    
+                                    <img src="https://img.kleinanzeigen.de/api/v1/prod-ads/images/6e/6e810270-de5b-4545-b5df-b0570c6944bc?rule=$_59.JPG" class="img-thumbnail " style="max-height: 80px; object-fit: cover; width: 100%;" alt="Appartement Bild">
+                                    
+                                </td>
+                                <td>
+                                    <div class="fw-bold text-truncate" style="max-width: 250px;" title="3ZKB Balkon ab 01.05.2026 Altstadt KL, nur telef. Anfragen">
+                                        <a href="https://www.kleinanzeigen.de/s-anzeige/3zkb-balkon-ab-01-05-2026-altstadt-kl-nur-telef-anfragen/3342219134-203-5468" target="_blank" class="text-decoration-none ">
+                                            3ZKB Balkon ab 01.05.2026 Altstadt KL, nur telef. Anfragen
+                                        </a>
+                                    </div>
+                                    <div class="small text-muted mt-1">
+                                        Added: 2026-03-24
+                                        
+                                        
+                                        
+                                    </div>
+                                    
+                                </td>
+                                <td>
+                                    <span class="fs-5 fw-semibold">770.0 €</span>
+                                    
+                                    <div class="small text-muted">10.0 €/m²</div>
+                                    
+                                </td>
+                                <td>
+                                    <div><strong>3.0</strong> <span class="small">ZKB</span></div>
+                                    <div><strong>77.0</strong> <span class="small">m²</span></div>
+                                </td>
+                                <td>
+                                    <div class="text-wrap" style="max-width: 200px; font-size: 0.9rem;">
+                                        <i class="bi bi-geo-alt"></i> 67655 Rheinland-Pfalz - Kaiserslautern
+                                    </div>
+                                </td>
+                                <td>
+                                    
+                                        <span class="badge bg-success">Available</span>
+                                    
+                                </td>
+                                <td class="text-end">
+                                    <div class="btn-group-vertical btn-group-sm">
+                                        <a href="https://www.kleinanzeigen.de/s-anzeige/3zkb-balkon-ab-01-05-2026-altstadt-kl-nur-telef-anfragen/3342219134-203-5468" target="_blank" class="btn btn-outline-secondary">Open</a>
+                                        <a href="/refresh/6" class="btn btn-outline-info">Refresh</a>
+                                        <form action="/delete/6" method="POST" class="d-inline" onsubmit="return confirm('Remove this from tracking?');">
+                                            <button type="submit" class="btn btn-outline-danger w-100 rounded-top-0">Delete</button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                            
+                            <tr class="">
+                                <td>
+                                    
+                                    <img src="https://img.kleinanzeigen.de/api/v1/prod-ads/images/cb/cbb15586-172e-42a2-8e92-9ab0dbeca141?rule=$_59.JPG" class="img-thumbnail " style="max-height: 80px; object-fit: cover; width: 100%;" alt="Appartement Bild">
+                                    
+                                </td>
+                                <td>
+                                    <div class="fw-bold text-truncate" style="max-width: 250px;" title="drei-Zimmer-Maisonette-Terassenwohnung">
+                                        <a href="https://www.kleinanzeigen.de/s-anzeige/drei-zimmer-maisonette-terassenwohnung/3334122266-203-5467" target="_blank" class="text-decoration-none ">
+                                            drei-Zimmer-Maisonette-Terassenwohnung
+                                        </a>
+                                    </div>
+                                    <div class="small text-muted mt-1">
+                                        Added: 2026-03-24
+                                        
+                                        
+                                        
+                                    </div>
+                                    
+                                </td>
+                                <td>
+                                    <span class="fs-5 fw-semibold">1270.0 €</span>
+                                    
+                                    <div class="small text-muted">10.58 €/m²</div>
+                                    
+                                </td>
+                                <td>
+                                    <div><strong>3.0</strong> <span class="small">ZKB</span></div>
+                                    <div><strong>120.0</strong> <span class="small">m²</span></div>
+                                </td>
+                                <td>
+                                    <div class="text-wrap" style="max-width: 200px; font-size: 0.9rem;">
+                                        <i class="bi bi-geo-alt"></i> 67657 Rheinland-Pfalz - Kaiserslautern
+                                    </div>
+                                </td>
+                                <td>
+                                    
+                                        <span class="badge bg-success">Available</span>
+                                    
+                                </td>
+                                <td class="text-end">
+                                    <div class="btn-group-vertical btn-group-sm">
+                                        <a href="https://www.kleinanzeigen.de/s-anzeige/drei-zimmer-maisonette-terassenwohnung/3334122266-203-5467" target="_blank" class="btn btn-outline-secondary">Open</a>
+                                        <a href="/refresh/7" class="btn btn-outline-info">Refresh</a>
+                                        <form action="/delete/7" method="POST" class="d-inline" onsubmit="return confirm('Remove this from tracking?');">
+                                            <button type="submit" class="btn btn-outline-danger w-100 rounded-top-0">Delete</button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                            
+                            <tr class="">
+                                <td>
+                                    
+                                    <img src="https://pictures.immobilienscout24.de/listings/a82ea1fe-bf3f-4e58-9ad7-6f5d256f6ae8-1940599846.jpeg/ORIG/resize/540x540%3E/format/webp/quality/73" class="img-thumbnail " style="max-height: 80px; object-fit: cover; width: 100%;" alt="Appartement Bild">
+                                    
+                                </td>
+                                <td>
+                                    <div class="fw-bold text-truncate" style="max-width: 250px;" title="Kapitallageobjekt in der UniWohnstadt">
+                                        <a href="https://www.immobilienscout24.de/expose/161718612#/" target="_blank" class="text-decoration-none ">
+                                            Kapitallageobjekt in der UniWohnstadt
+                                        </a>
+                                    </div>
+                                    <div class="small text-muted mt-1">
+                                        Added: 2026-03-24
+                                        
+                                        
+                                        
+                                    </div>
+                                    
+                                </td>
+                                <td>
+                                    <span class="fs-5 fw-semibold">144900.0 €</span>
+                                    
+                                    <div class="small text-muted">3237.99 €/m²</div>
+                                    
+                                </td>
+                                <td>
+                                    <div><strong>2.0</strong> <span class="small">ZKB</span></div>
+                                    <div><strong>44.75</strong> <span class="small">m²</span></div>
+                                </td>
+                                <td>
+                                    <div class="text-wrap" style="max-width: 200px; font-size: 0.9rem;">
+                                        <i class="bi bi-geo-alt"></i> Lämmchesberg-Universitätswohnstadt, 67663 Kaiserslautern
+                                    </div>
+                                </td>
+                                <td>
+                                    
+                                        <span class="badge bg-success">Available</span>
+                                    
+                                </td>
+                                <td class="text-end">
+                                    <div class="btn-group-vertical btn-group-sm">
+                                        <a href="https://www.immobilienscout24.de/expose/161718612#/" target="_blank" class="btn btn-outline-secondary">Open</a>
+                                        <a href="/refresh/8" class="btn btn-outline-info">Refresh</a>
+                                        <form action="/delete/8" method="POST" class="d-inline" onsubmit="return confirm('Remove this from tracking?');">
+                                            <button type="submit" class="btn btn-outline-danger w-100 rounded-top-0">Delete</button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                            
+                            <tr class="">
+                                <td>
+                                    
+                                    <img src="https://pictures.immobilienscout24.de/listings/aedc706a-c773-4fb2-a582-c41820c248ea-1980922570.jpeg/ORIG/resize/540x540%3E/format/webp/quality/73" class="img-thumbnail " style="max-height: 80px; object-fit: cover; width: 100%;" alt="Appartement Bild">
+                                    
+                                </td>
+                                <td>
+                                    <div class="fw-bold text-truncate" style="max-width: 250px;" title="1- Zimmerwohnung mit Balkon im Uniwohngebiet!">
+                                        <a href="https://www.immobilienscout24.de/expose/164962976#/" target="_blank" class="text-decoration-none ">
+                                            1- Zimmerwohnung mit Balkon im Uniwohngebiet!
+                                        </a>
+                                    </div>
+                                    <div class="small text-muted mt-1">
+                                        Added: 2026-03-24
+                                        
+                                        
+                                        
+                                    </div>
+                                    
+                                </td>
+                                <td>
+                                    <span class="fs-5 fw-semibold">89000.0 €</span>
+                                    
+                                    <div class="small text-muted">2966.67 €/m²</div>
+                                    
+                                </td>
+                                <td>
+                                    <div><strong>1.0</strong> <span class="small">ZKB</span></div>
+                                    <div><strong>30.0</strong> <span class="small">m²</span></div>
+                                </td>
+                                <td>
+                                    <div class="text-wrap" style="max-width: 200px; font-size: 0.9rem;">
+                                        <i class="bi bi-geo-alt"></i> Lämmchesberg-Universitätswohnstadt, 67663 Kaiserslautern
+                                    </div>
+                                </td>
+                                <td>
+                                    
+                                        <span class="badge bg-success">Available</span>
+                                    
+                                </td>
+                                <td class="text-end">
+                                    <div class="btn-group-vertical btn-group-sm">
+                                        <a href="https://www.immobilienscout24.de/expose/164962976#/" target="_blank" class="btn btn-outline-secondary">Open</a>
+                                        <a href="/refresh/9" class="btn btn-outline-info">Refresh</a>
+                                        <form action="/delete/9" method="POST" class="d-inline" onsubmit="return confirm('Remove this from tracking?');">
+                                            <button type="submit" class="btn btn-outline-danger w-100 rounded-top-0">Delete</button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                            
+                            <tr class="">
+                                <td>
+                                    
+                                    <img src="https://pictures.immobilienscout24.de/listings/fea9734a-ea1b-4cf1-9d4b-b54dd8300a6e-2005876572.jpg/ORIG/resize/540x540%3E/format/webp/quality/73" class="img-thumbnail " style="max-height: 80px; object-fit: cover; width: 100%;" alt="Appartement Bild">
+                                    
+                                </td>
+                                <td>
+                                    <div class="fw-bold text-truncate" style="max-width: 250px;" title="Klein, aber Mein! Appartement im Erdgeschoss">
+                                        <a href="https://www.immobilienscout24.de/expose/166497484#/" target="_blank" class="text-decoration-none ">
+                                            Klein, aber Mein! Appartement im Erdgeschoss
+                                        </a>
+                                    </div>
+                                    <div class="small text-muted mt-1">
+                                        Added: 2026-03-24
+                                        
+                                        
+                                        
+                                    </div>
+                                    
+                                </td>
+                                <td>
+                                    <span class="fs-5 fw-semibold">58000.0 €</span>
+                                    
+                                    <div class="small text-muted">2320.0 €/m²</div>
+                                    
+                                </td>
+                                <td>
+                                    <div><strong>1.0</strong> <span class="small">ZKB</span></div>
+                                    <div><strong>25.0</strong> <span class="small">m²</span></div>
+                                </td>
+                                <td>
+                                    <div class="text-wrap" style="max-width: 200px; font-size: 0.9rem;">
+                                        <i class="bi bi-geo-alt"></i> Innenstadt West/Kotten, 67655 Kaiserslautern
+                                    </div>
+                                </td>
+                                <td>
+                                    
+                                        <span class="badge bg-success">Available</span>
+                                    
+                                </td>
+                                <td class="text-end">
+                                    <div class="btn-group-vertical btn-group-sm">
+                                        <a href="https://www.immobilienscout24.de/expose/166497484#/" target="_blank" class="btn btn-outline-secondary">Open</a>
+                                        <a href="/refresh/10" class="btn btn-outline-info">Refresh</a>
+                                        <form action="/delete/10" method="POST" class="d-inline" onsubmit="return confirm('Remove this from tracking?');">
+                                            <button type="submit" class="btn btn-outline-danger w-100 rounded-top-0">Delete</button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                            
+                            <tr class="">
+                                <td>
+                                    
+                                    <img src="https://pictures.immobilienscout24.de/listings/cd6efc5a-db4c-45ab-af22-eee3377ca39a-2006046363.jpg/ORIG/resize/540x540%3E/format/webp/quality/73" class="img-thumbnail " style="max-height: 80px; object-fit: cover; width: 100%;" alt="Appartement Bild">
+                                    
+                                </td>
+                                <td>
+                                    <div class="fw-bold text-truncate" style="max-width: 250px;" title="Ruhige Lage! DG-Wohnung mit 4 Zimmern, EBK und Keller">
+                                        <a href="https://www.immobilienscout24.de/expose/151890709#/" target="_blank" class="text-decoration-none ">
+                                            Ruhige Lage! DG-Wohnung mit 4 Zimmern, EBK und Keller
+                                        </a>
+                                    </div>
+                                    <div class="small text-muted mt-1">
+                                        Added: 2026-03-24
+                                        
+                                        
+                                        
+                                    </div>
+                                    
+                                </td>
+                                <td>
+                                    <span class="fs-5 fw-semibold">169000.0 €</span>
+                                    
+                                    <div class="small text-muted">1690.0 €/m²</div>
+                                    
+                                </td>
+                                <td>
+                                    <div><strong>4.0</strong> <span class="small">ZKB</span></div>
+                                    <div><strong>100.0</strong> <span class="small">m²</span></div>
+                                </td>
+                                <td>
+                                    <div class="text-wrap" style="max-width: 200px; font-size: 0.9rem;">
+                                        <i class="bi bi-geo-alt"></i> Grübentälchen/Volkspark, 67657 Kaiserslautern
+                                    </div>
+                                </td>
+                                <td>
+                                    
+                                        <span class="badge bg-success">Available</span>
+                                    
+                                </td>
+                                <td class="text-end">
+                                    <div class="btn-group-vertical btn-group-sm">
+                                        <a href="https://www.immobilienscout24.de/expose/151890709#/" target="_blank" class="btn btn-outline-secondary">Open</a>
+                                        <a href="/refresh/11" class="btn btn-outline-info">Refresh</a>
+                                        <form action="/delete/11" method="POST" class="d-inline" onsubmit="return confirm('Remove this from tracking?');">
+                                            <button type="submit" class="btn btn-outline-danger w-100 rounded-top-0">Delete</button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                            
+                            <tr class="">
+                                <td>
+                                    
+                                    <img src="https://pictures.immobilienscout24.de/listings/74c3e996-fcab-4146-a2c2-ca2c1cd3af6b-1996939809.jpg/ORIG/resize/540x540%3E/format/webp/quality/73" class="img-thumbnail " style="max-height: 80px; object-fit: cover; width: 100%;" alt="Appartement Bild">
+                                    
+                                </td>
+                                <td>
+                                    <div class="fw-bold text-truncate" style="max-width: 250px;" title="Vermietete Eigentumswohnung auf dem Betzenberg">
+                                        <a href="https://www.immobilienscout24.de/expose/163842578#/" target="_blank" class="text-decoration-none ">
+                                            Vermietete Eigentumswohnung auf dem Betzenberg
+                                        </a>
+                                    </div>
+                                    <div class="small text-muted mt-1">
+                                        Added: 2026-03-24
+                                        
+                                        
+                                        
+                                    </div>
+                                    
+                                </td>
+                                <td>
+                                    <span class="fs-5 fw-semibold">156000.0 €</span>
+                                    
+                                    <div class="small text-muted">1965.23 €/m²</div>
+                                    
+                                </td>
+                                <td>
+                                    <div><strong>3.0</strong> <span class="small">ZKB</span></div>
+                                    <div><strong>79.38</strong> <span class="small">m²</span></div>
+                                </td>
+                                <td>
+                                    <div class="text-wrap" style="max-width: 200px; font-size: 0.9rem;">
+                                        <i class="bi bi-geo-alt"></i> Betzen, 67663 Kaiserslautern
+                                    </div>
+                                </td>
+                                <td>
+                                    
+                                        <span class="badge bg-success">Available</span>
+                                    
+                                </td>
+                                <td class="text-end">
+                                    <div class="btn-group-vertical btn-group-sm">
+                                        <a href="https://www.immobilienscout24.de/expose/163842578#/" target="_blank" class="btn btn-outline-secondary">Open</a>
+                                        <a href="/refresh/12" class="btn btn-outline-info">Refresh</a>
+                                        <form action="/delete/12" method="POST" class="d-inline" onsubmit="return confirm('Remove this from tracking?');">
+                                            <button type="submit" class="btn btn-outline-danger w-100 rounded-top-0">Delete</button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                            
+                            <tr class="">
+                                <td>
+                                    
+                                    <img src="https://pictures.immobilienscout24.de/listings/9b67346e-6fb1-4b62-bff8-630cdd82ab0c-2000467365.jpg/ORIG/resize/540x540%3E/format/webp/quality/73" class="img-thumbnail " style="max-height: 80px; object-fit: cover; width: 100%;" alt="Appartement Bild">
+                                    
+                                </td>
+                                <td>
+                                    <div class="fw-bold text-truncate" style="max-width: 250px;" title="4 Zimmerwohnung mit schönem Ausblick und großem Balkon">
+                                        <a href="https://www.immobilienscout24.de/expose/166189177#/" target="_blank" class="text-decoration-none ">
+                                            4 Zimmerwohnung mit schönem Ausblick und großem Balkon
+                                        </a>
+                                    </div>
+                                    <div class="small text-muted mt-1">
+                                        Added: 2026-03-24
+                                        
+                                        
+                                        
+                                    </div>
+                                    
+                                </td>
+                                <td>
+                                    <span class="fs-5 fw-semibold">170000.0 €</span>
+                                    
+                                    <div class="small text-muted">1939.09 €/m²</div>
+                                    
+                                </td>
+                                <td>
+                                    <div><strong>4.0</strong> <span class="small">ZKB</span></div>
+                                    <div><strong>87.67</strong> <span class="small">m²</span></div>
+                                </td>
+                                <td>
+                                    <div class="text-wrap" style="max-width: 200px; font-size: 0.9rem;">
+                                        <i class="bi bi-geo-alt"></i> Betzen, 67663 Kaiserslautern
+                                    </div>
+                                </td>
+                                <td>
+                                    
+                                        <span class="badge bg-success">Available</span>
+                                    
+                                </td>
+                                <td class="text-end">
+                                    <div class="btn-group-vertical btn-group-sm">
+                                        <a href="https://www.immobilienscout24.de/expose/166189177#/" target="_blank" class="btn btn-outline-secondary">Open</a>
+                                        <a href="/refresh/13" class="btn btn-outline-info">Refresh</a>
+                                        <form action="/delete/13" method="POST" class="d-inline" onsubmit="return confirm('Remove this from tracking?');">
+                                            <button type="submit" class="btn btn-outline-danger w-100 rounded-top-0">Delete</button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                            
+                            <tr class="">
+                                <td>
+                                    
+                                    <img src="https://pictures.immobilienscout24.de/listings/0a7b8f24-7aad-44d4-a1ef-63b3e132dc59-2005023047.jpg/ORIG/resize/540x540%3E/format/webp/quality/73" class="img-thumbnail " style="max-height: 80px; object-fit: cover; width: 100%;" alt="Appartement Bild">
+                                    
+                                </td>
+                                <td>
+                                    <div class="fw-bold text-truncate" style="max-width: 250px;" title="2-Zimmer-Wohnung mit Balkon in ruhiger Wohnlage von Kaiserslautern">
+                                        <a href="https://www.immobilienscout24.de/expose/166442877#/" target="_blank" class="text-decoration-none ">
+                                            2-Zimmer-Wohnung mit Balkon in ruhiger Wohnlage von Kaiserslautern
+                                        </a>
+                                    </div>
+                                    <div class="small text-muted mt-1">
+                                        Added: 2026-03-24
+                                        
+                                        
+                                        
+                                    </div>
+                                    
+                                </td>
+                                <td>
+                                    <span class="fs-5 fw-semibold">139000.0 €</span>
+                                    
+                                    <div class="small text-muted">2527.27 €/m²</div>
+                                    
+                                </td>
+                                <td>
+                                    <div><strong>4.0</strong> <span class="small">ZKB</span></div>
+                                    <div><strong>55.0</strong> <span class="small">m²</span></div>
+                                </td>
+                                <td>
+                                    <div class="text-wrap" style="max-width: 200px; font-size: 0.9rem;">
+                                        <i class="bi bi-geo-alt"></i> Lämmchesberg-Universitätswohnstadt, 67663 Kaiserslautern
+                                    </div>
+                                </td>
+                                <td>
+                                    
+                                        <span class="badge bg-success">Available</span>
+                                    
+                                </td>
+                                <td class="text-end">
+                                    <div class="btn-group-vertical btn-group-sm">
+                                        <a href="https://www.immobilienscout24.de/expose/166442877#/" target="_blank" class="btn btn-outline-secondary">Open</a>
+                                        <a href="/refresh/14" class="btn btn-outline-info">Refresh</a>
+                                        <form action="/delete/14" method="POST" class="d-inline" onsubmit="return confirm('Remove this from tracking?');">
+                                            <button type="submit" class="btn btn-outline-danger w-100 rounded-top-0">Delete</button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                            
+                            <tr class="">
+                                <td>
+                                    
+                                    <img src="https://pictures.immobilienscout24.de/listings/947a935c-c374-455a-9143-14233bc5be73-1980923343.jpeg/ORIG/resize/540x540%3E/format/webp/quality/73" class="img-thumbnail " style="max-height: 80px; object-fit: cover; width: 100%;" alt="Appartement Bild">
+                                    
+                                </td>
+                                <td>
+                                    <div class="fw-bold text-truncate" style="max-width: 250px;" title="*Modernes City-Apartment mit Tiefgaragenstellplatz!*">
+                                        <a href="https://www.immobilienscout24.de/expose/164923822#/" target="_blank" class="text-decoration-none ">
+                                            *Modernes City-Apartment mit Tiefgaragenstellplatz!*
+                                        </a>
+                                    </div>
+                                    <div class="small text-muted mt-1">
+                                        Added: 2026-03-24
+                                        
+                                        
+                                        
+                                    </div>
+                                    
+                                </td>
+                                <td>
+                                    <span class="fs-5 fw-semibold">63000.0 €</span>
+                                    
+                                    <div class="small text-muted">2863.64 €/m²</div>
+                                    
+                                </td>
+                                <td>
+                                    <div><strong>1.0</strong> <span class="small">ZKB</span></div>
+                                    <div><strong>22.0</strong> <span class="small">m²</span></div>
+                                </td>
+                                <td>
+                                    <div class="text-wrap" style="max-width: 200px; font-size: 0.9rem;">
+                                        <i class="bi bi-geo-alt"></i> Innenstadt Nord Kaiserberg, 67567 Kaiserslautern
+                                    </div>
+                                </td>
+                                <td>
+                                    
+                                        <span class="badge bg-success">Available</span>
+                                    
+                                </td>
+                                <td class="text-end">
+                                    <div class="btn-group-vertical btn-group-sm">
+                                        <a href="https://www.immobilienscout24.de/expose/164923822#/" target="_blank" class="btn btn-outline-secondary">Open</a>
+                                        <a href="/refresh/15" class="btn btn-outline-info">Refresh</a>
+                                        <form action="/delete/15" method="POST" class="d-inline" onsubmit="return confirm('Remove this from tracking?');">
+                                            <button type="submit" class="btn btn-outline-danger w-100 rounded-top-0">Delete</button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                            
+                            <tr class="">
+                                <td>
+                                    
+                                    <img src="https://pictures.immobilienscout24.de/listings/6a2c8b09-4b0e-449a-96d8-66e820dc1a29-2004157469.jpg/ORIG/resize/540x540%3E/format/webp/quality/73" class="img-thumbnail " style="max-height: 80px; object-fit: cover; width: 100%;" alt="Appartement Bild">
+                                    
+                                </td>
+                                <td>
+                                    <div class="fw-bold text-truncate" style="max-width: 250px;" title="Modernisiertes Ein-Zimmer-Appartement zur sofortigen Nutzung">
+                                        <a href="https://www.immobilienscout24.de/expose/165728912#/" target="_blank" class="text-decoration-none ">
+                                            Modernisiertes Ein-Zimmer-Appartement zur sofortigen Nutzung
+                                        </a>
+                                    </div>
+                                    <div class="small text-muted mt-1">
+                                        Added: 2026-03-24
+                                        
+                                        
+                                        
+                                    </div>
+                                    
+                                </td>
+                                <td>
+                                    <span class="fs-5 fw-semibold">74500.0 €</span>
+                                    
+                                    <div class="small text-muted">2198.29 €/m²</div>
+                                    
+                                </td>
+                                <td>
+                                    <div><strong>1.0</strong> <span class="small">ZKB</span></div>
+                                    <div><strong>33.89</strong> <span class="small">m²</span></div>
+                                </td>
+                                <td>
+                                    <div class="text-wrap" style="max-width: 200px; font-size: 0.9rem;">
+                                        <i class="bi bi-geo-alt"></i> Betzen, 67663 Kaiserslautern
+                                    </div>
+                                </td>
+                                <td>
+                                    
+                                        <span class="badge bg-success">Available</span>
+                                    
+                                </td>
+                                <td class="text-end">
+                                    <div class="btn-group-vertical btn-group-sm">
+                                        <a href="https://www.immobilienscout24.de/expose/165728912#/" target="_blank" class="btn btn-outline-secondary">Open</a>
+                                        <a href="/refresh/16" class="btn btn-outline-info">Refresh</a>
+                                        <form action="/delete/16" method="POST" class="d-inline" onsubmit="return confirm('Remove this from tracking?');">
+                                            <button type="submit" class="btn btn-outline-danger w-100 rounded-top-0">Delete</button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                            
+                            <tr class="">
+                                <td>
+                                    
+                                    <img src="https://pictures.immobilienscout24.de/listings/5642b695-58d5-4665-8f40-a26b66620371-2002407217.jpg/ORIG/resize/540x540%3E/format/webp/quality/73" class="img-thumbnail " style="max-height: 80px; object-fit: cover; width: 100%;" alt="Appartement Bild">
+                                    
+                                </td>
+                                <td>
+                                    <div class="fw-bold text-truncate" style="max-width: 250px;" title="KL-West - Eigentumswohnung in ruhiger Lage mit 3 Zimmern, Küche, Bad und 2 Balkonen">
+                                        <a href="https://www.immobilienscout24.de/expose/166299016#/" target="_blank" class="text-decoration-none ">
+                                            KL-West - Eigentumswohnung in ruhiger Lage mit 3 Zimmern, Küche, Bad und 2 Balkonen
+                                        </a>
+                                    </div>
+                                    <div class="small text-muted mt-1">
+                                        Added: 2026-03-24
+                                        
+                                        
+                                        
+                                    </div>
+                                    
+                                </td>
+                                <td>
+                                    <span class="fs-5 fw-semibold">125000.0 €</span>
+                                    
+                                    <div class="small text-muted">1661.57 €/m²</div>
+                                    
+                                </td>
+                                <td>
+                                    <div><strong>3.0</strong> <span class="small">ZKB</span></div>
+                                    <div><strong>75.23</strong> <span class="small">m²</span></div>
+                                </td>
+                                <td>
+                                    <div class="text-wrap" style="max-width: 200px; font-size: 0.9rem;">
+                                        <i class="bi bi-geo-alt"></i> Kaiserslautern-West, 67663 Kaiserslautern
+                                    </div>
+                                </td>
+                                <td>
+                                    
+                                        <span class="badge bg-success">Available</span>
+                                    
+                                </td>
+                                <td class="text-end">
+                                    <div class="btn-group-vertical btn-group-sm">
+                                        <a href="https://www.immobilienscout24.de/expose/166299016#/" target="_blank" class="btn btn-outline-secondary">Open</a>
+                                        <a href="/refresh/17" class="btn btn-outline-info">Refresh</a>
+                                        <form action="/delete/17" method="POST" class="d-inline" onsubmit="return confirm('Remove this from tracking?');">
+                                            <button type="submit" class="btn btn-outline-danger w-100 rounded-top-0">Delete</button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                            
+                            <tr class="">
+                                <td>
+                                    
+                                    <img src="https://pictures.immobilienscout24.de/listings/5ba1039a-9514-4bf1-9a44-5f8a1f05d003-2006432206.jpg/ORIG/resize/540x540%3E/format/webp/quality/73" class="img-thumbnail " style="max-height: 80px; object-fit: cover; width: 100%;" alt="Appartement Bild">
+                                    
+                                </td>
+                                <td>
+                                    <div class="fw-bold text-truncate" style="max-width: 250px;" title="Toll geschnitte Split-Level-Wohnung im Unigebiet">
+                                        <a href="https://www.immobilienscout24.de/expose/153311918#/" target="_blank" class="text-decoration-none ">
+                                            Toll geschnitte Split-Level-Wohnung im Unigebiet
+                                        </a>
+                                    </div>
+                                    <div class="small text-muted mt-1">
+                                        Added: 2026-03-24
+                                        
+                                        
+                                        
+                                    </div>
+                                    
+                                </td>
+                                <td>
+                                    <span class="fs-5 fw-semibold">149000.0 €</span>
+                                    
+                                    <div class="small text-muted">2980.0 €/m²</div>
+                                    
+                                </td>
+                                <td>
+                                    <div><strong>2.0</strong> <span class="small">ZKB</span></div>
+                                    <div><strong>50.0</strong> <span class="small">m²</span></div>
+                                </td>
+                                <td>
+                                    <div class="text-wrap" style="max-width: 200px; font-size: 0.9rem;">
+                                        <i class="bi bi-geo-alt"></i> Lämmchesberg-Universitätswohnstadt, 67663 Kaiserslautern
+                                    </div>
+                                </td>
+                                <td>
+                                    
+                                        <span class="badge bg-success">Available</span>
+                                    
+                                </td>
+                                <td class="text-end">
+                                    <div class="btn-group-vertical btn-group-sm">
+                                        <a href="https://www.immobilienscout24.de/expose/153311918#/" target="_blank" class="btn btn-outline-secondary">Open</a>
+                                        <a href="/refresh/18" class="btn btn-outline-info">Refresh</a>
+                                        <form action="/delete/18" method="POST" class="d-inline" onsubmit="return confirm('Remove this from tracking?');">
+                                            <button type="submit" class="btn btn-outline-danger w-100 rounded-top-0">Delete</button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                            
+                            <tr class="">
+                                <td>
+                                    
+                                    <img src="https://pictures.immobilienscout24.de/listings/0cde7ac3-422e-4720-bd99-31841c9f5dcb-1990245186.jpg/ORIG/resize/540x540%3E/format/webp/quality/73" class="img-thumbnail " style="max-height: 80px; object-fit: cover; width: 100%;" alt="Appartement Bild">
+                                    
+                                </td>
+                                <td>
+                                    <div class="fw-bold text-truncate" style="max-width: 250px;" title="Helle 2-Zimmer-Wohnung - hoch über den Dächern von Kaiserslautern mit toller Süd-Fernsicht">
+                                        <a href="https://www.immobilienscout24.de/expose/165594839#/" target="_blank" class="text-decoration-none ">
+                                            Helle 2-Zimmer-Wohnung - hoch über den Dächern von Kaiserslautern mit toller Süd-Fernsicht
+                                        </a>
+                                    </div>
+                                    <div class="small text-muted mt-1">
+                                        Added: 2026-03-24
+                                        
+                                        
+                                        
+                                    </div>
+                                    
+                                </td>
+                                <td>
+                                    <span class="fs-5 fw-semibold">127000.0 €</span>
+                                    
+                                    <div class="small text-muted">2081.97 €/m²</div>
+                                    
+                                </td>
+                                <td>
+                                    <div><strong>2.0</strong> <span class="small">ZKB</span></div>
+                                    <div><strong>61.0</strong> <span class="small">m²</span></div>
+                                </td>
+                                <td>
+                                    <div class="text-wrap" style="max-width: 200px; font-size: 0.9rem;">
+                                        <i class="bi bi-geo-alt"></i> Betzen, 67663 Kaiserslautern
+                                    </div>
+                                </td>
+                                <td>
+                                    
+                                        <span class="badge bg-success">Available</span>
+                                    
+                                </td>
+                                <td class="text-end">
+                                    <div class="btn-group-vertical btn-group-sm">
+                                        <a href="https://www.immobilienscout24.de/expose/165594839#/" target="_blank" class="btn btn-outline-secondary">Open</a>
+                                        <a href="/refresh/19" class="btn btn-outline-info">Refresh</a>
+                                        <form action="/delete/19" method="POST" class="d-inline" onsubmit="return confirm('Remove this from tracking?');">
+                                            <button type="submit" class="btn btn-outline-danger w-100 rounded-top-0">Delete</button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                            
+                            <tr class="">
+                                <td>
+                                    
+                                    <img src="https://immo.rheinpfalz.de/img-service/gw613EJG_OCdAHicWKCYOHOBJHMYkdLYWYedg78CFUWWjWg792DncKZoBkFyvLIY8lUcCLgFHwWypR1X8snInmXJW-tVs3QWLGaiOASxbIbcRCJNyhUshJ4cdFKMHVSUcYtQfWlkesxGosJT79V7h-tYDtY0SqKBTXZ0vaUNWe-3J5Z_sxmyWYhKYVptMvpPx;scale=1300x680" class="img-thumbnail " style="max-height: 80px; object-fit: cover; width: 100%;" alt="Appartement Bild">
+                                    
+                                </td>
+                                <td>
+                                    <div class="fw-bold text-truncate" style="max-width: 250px;" title="2-Zimmer-Wohnung mit Balkon in ruhiger Wohnlage von Kaiserslautern">
+                                        <a href="https://immo.rheinpfalz.de/immobilien/2-zimmer-wohnung-mit-balkon-in-ruhiger-wohnlage-von-kaiserslautern-GMSFSN" target="_blank" class="text-decoration-none ">
+                                            2-Zimmer-Wohnung mit Balkon in ruhiger Wohnlage von Kaiserslautern
+                                        </a>
+                                    </div>
+                                    <div class="small text-muted mt-1">
+                                        Added: 2026-03-24
+                                        
+                                        
+                                        
+                                    </div>
+                                    
+                                </td>
+                                <td>
+                                    <span class="fs-5 fw-semibold">139000.0 €</span>
+                                    
+                                    <div class="small text-muted">2527.27 €/m²</div>
+                                    
+                                </td>
+                                <td>
+                                    <div><strong>2.0</strong> <span class="small">ZKB</span></div>
+                                    <div><strong>55.0</strong> <span class="small">m²</span></div>
+                                </td>
+                                <td>
+                                    <div class="text-wrap" style="max-width: 200px; font-size: 0.9rem;">
+                                        <i class="bi bi-geo-alt"></i> 67663 Kaiserslautern
+                                    </div>
+                                </td>
+                                <td>
+                                    
+                                        <span class="badge bg-success">Available</span>
+                                    
+                                </td>
+                                <td class="text-end">
+                                    <div class="btn-group-vertical btn-group-sm">
+                                        <a href="https://immo.rheinpfalz.de/immobilien/2-zimmer-wohnung-mit-balkon-in-ruhiger-wohnlage-von-kaiserslautern-GMSFSN" target="_blank" class="btn btn-outline-secondary">Open</a>
+                                        <a href="/refresh/20" class="btn btn-outline-info">Refresh</a>
+                                        <form action="/delete/20" method="POST" class="d-inline" onsubmit="return confirm('Remove this from tracking?');">
+                                            <button type="submit" class="btn btn-outline-danger w-100 rounded-top-0">Delete</button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                            
+                            <tr class="">
+                                <td>
+                                    
+                                    <img src="https://immo.rheinpfalz.de/img-service/gw613EJG_OCdAHicWKCYOHCjFM4vP5tBCAYpbIw0W_dhzOsDoqSGUSPF9YvMT1gKeYb4xFkJjN8hHeFVPdl92ublCXbsN4f1gET-CkBmzb-3c9TURdldwng-qB5oLSClawDjOb2pGWYhqJqbYantcgEb7hCQw78P9e6TgML2fM8t4ptoKl2Dl9_4LbP52w0ZQ;scale=1300x680" class="img-thumbnail " style="max-height: 80px; object-fit: cover; width: 100%;" alt="Appartement Bild">
+                                    
+                                </td>
+                                <td>
+                                    <div class="fw-bold text-truncate" style="max-width: 250px;" title="Modernisierte 3 ZKB Wohnung am Volkspark mit 2 Balkonen">
+                                        <a href="https://immo.rheinpfalz.de/immobilien/modernisierte-3-zkb-wohnung-am-volkspark-mit-2-balkonen-GSQYM4?t=apartment:sale:living&amp;ba=&amp;pf=&amp;pt=&amp;rf=&amp;rt=&amp;sf=&amp;st=&amp;psf=&amp;pst=&amp;ff=&amp;ft=&amp;yf=&amp;yt=&amp;r=0km&amp;ro=0&amp;s=relevance&amp;pa=&amp;u=&amp;l=Kaiserslautern&amp;a=de.kaiserslautern&amp;page=1&amp;serpPage=1" target="_blank" class="text-decoration-none ">
+                                            Modernisierte 3 ZKB Wohnung am Volkspark mit 2 Balkonen
+                                        </a>
+                                    </div>
+                                    <div class="small text-muted mt-1">
+                                        Added: 2026-03-24
+                                        
+                                        
+                                        
+                                    </div>
+                                    
+                                </td>
+                                <td>
+                                    <span class="fs-5 fw-semibold">129000.0 €</span>
+                                    
+                                    <div class="small text-muted">1720.0 €/m²</div>
+                                    
+                                </td>
+                                <td>
+                                    <div><strong>3.0</strong> <span class="small">ZKB</span></div>
+                                    <div><strong>75.0</strong> <span class="small">m²</span></div>
+                                </td>
+                                <td>
+                                    <div class="text-wrap" style="max-width: 200px; font-size: 0.9rem;">
+                                        <i class="bi bi-geo-alt"></i> 67657 Kaiserslautern
+                                    </div>
+                                </td>
+                                <td>
+                                    
+                                        <span class="badge bg-success">Available</span>
+                                    
+                                </td>
+                                <td class="text-end">
+                                    <div class="btn-group-vertical btn-group-sm">
+                                        <a href="https://immo.rheinpfalz.de/immobilien/modernisierte-3-zkb-wohnung-am-volkspark-mit-2-balkonen-GSQYM4?t=apartment:sale:living&amp;ba=&amp;pf=&amp;pt=&amp;rf=&amp;rt=&amp;sf=&amp;st=&amp;psf=&amp;pst=&amp;ff=&amp;ft=&amp;yf=&amp;yt=&amp;r=0km&amp;ro=0&amp;s=relevance&amp;pa=&amp;u=&amp;l=Kaiserslautern&amp;a=de.kaiserslautern&amp;page=1&amp;serpPage=1" target="_blank" class="btn btn-outline-secondary">Open</a>
+                                        <a href="/refresh/23" class="btn btn-outline-info">Refresh</a>
+                                        <form action="/delete/23" method="POST" class="d-inline" onsubmit="return confirm('Remove this from tracking?');">
+                                            <button type="submit" class="btn btn-outline-danger w-100 rounded-top-0">Delete</button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                            
+                            <tr class="">
+                                <td>
+                                    
+                                    <img src="https://mms.immowelt.de/a/8/c/5/a8c5001a-395c-4e05-9099-73afa2fc60bc.jpg?ci_seal=85784b125e086ce1f2637af641e158518b3f05ec" class="img-thumbnail " style="max-height: 80px; object-fit: cover; width: 100%;" alt="Appartement Bild">
+                                    
+                                </td>
+                                <td>
+                                    <div class="fw-bold text-truncate" style="max-width: 250px;" title="Wohnung 20.76 m² 48000 € zum Kauf Innenstadt,Kaiserslautern (67663)">
+                                        <a href="https://www.immowelt.de/expose/d574195e-3b3d-4137-a79c-5758c01d32de?utm_source=immobilo2&amp;utm_medium=koop&amp;utm_campaign=koop_seeker_iwt_b2c_immobilo2_x_buy_x_germany_x_x_x_de_x_x_x_x&amp;utm_term=low&amp;utm_content=xml" target="_blank" class="text-decoration-none ">
+                                            Wohnung 20.76 m² 48000 € zum Kauf Innenstadt,Kaiserslautern (67663)
+                                        </a>
+                                    </div>
+                                    <div class="small text-muted mt-1">
+                                        Added: 2026-03-24
+                                        
+                                        
+                                        
+                                    </div>
+                                    
+                                </td>
+                                <td>
+                                    <span class="fs-5 fw-semibold">48000.0 €</span>
+                                    
+                                    <div class="small text-muted">2307.69 €/m²</div>
+                                    
+                                </td>
+                                <td>
+                                    <div><strong>1.0</strong> <span class="small">ZKB</span></div>
+                                    <div><strong>20.8</strong> <span class="small">m²</span></div>
+                                </td>
+                                <td>
+                                    <div class="text-wrap" style="max-width: 200px; font-size: 0.9rem;">
+                                        <i class="bi bi-geo-alt"></i> Kaiserslautern
+                                    </div>
+                                </td>
+                                <td>
+                                    
+                                        <span class="badge bg-success">Available</span>
+                                    
+                                </td>
+                                <td class="text-end">
+                                    <div class="btn-group-vertical btn-group-sm">
+                                        <a href="https://www.immowelt.de/expose/d574195e-3b3d-4137-a79c-5758c01d32de?utm_source=immobilo2&amp;utm_medium=koop&amp;utm_campaign=koop_seeker_iwt_b2c_immobilo2_x_buy_x_germany_x_x_x_de_x_x_x_x&amp;utm_term=low&amp;utm_content=xml" target="_blank" class="btn btn-outline-secondary">Open</a>
+                                        <a href="/refresh/24" class="btn btn-outline-info">Refresh</a>
+                                        <form action="/delete/24" method="POST" class="d-inline" onsubmit="return confirm('Remove this from tracking?');">
+                                            <button type="submit" class="btn btn-outline-danger w-100 rounded-top-0">Delete</button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                            
+                            <tr class="">
+                                <td>
+                                    
+                                    <img src="https://mms.immowelt.de/6/1/a/8/61a85128-308a-4ae1-8b41-5d3c280a2786.jpg?ci_seal=c47912e6d4aa5c4c889a0afe7cf2a55bc743841d" class="img-thumbnail " style="max-height: 80px; object-fit: cover; width: 100%;" alt="Appartement Bild">
+                                    
+                                </td>
+                                <td>
+                                    <div class="fw-bold text-truncate" style="max-width: 250px;" title="Wohnung 75 m² 129000 € zum Kauf Innenstadt,Kaiserslautern (67657)">
+                                        <a href="https://www.immowelt.de/expose/6d502903-f1ab-4862-b9d7-660e3107ba9e?utm_source=immobilo2&amp;utm_medium=koop&amp;utm_campaign=koop_seeker_iwt_b2c_immobilo2_x_buy_x_germany_x_x_x_de_x_x_x_x&amp;utm_term=low&amp;utm_content=xml" target="_blank" class="text-decoration-none ">
+                                            Wohnung 75 m² 129000 € zum Kauf Innenstadt,Kaiserslautern (67657)
+                                        </a>
+                                    </div>
+                                    <div class="small text-muted mt-1">
+                                        Added: 2026-03-24
+                                        
+                                        
+                                        
+                                    </div>
+                                    
+                                </td>
+                                <td>
+                                    <span class="fs-5 fw-semibold">75.0 €</span>
+                                    
+                                    <div class="small text-muted">1.0 €/m²</div>
+                                    
+                                </td>
+                                <td>
+                                    <div><strong>3.0</strong> <span class="small">ZKB</span></div>
+                                    <div><strong>75.0</strong> <span class="small">m²</span></div>
+                                </td>
+                                <td>
+                                    <div class="text-wrap" style="max-width: 200px; font-size: 0.9rem;">
+                                        <i class="bi bi-geo-alt"></i> Kaiserslautern
+                                    </div>
+                                </td>
+                                <td>
+                                    
+                                        <span class="badge bg-success">Available</span>
+                                    
+                                </td>
+                                <td class="text-end">
+                                    <div class="btn-group-vertical btn-group-sm">
+                                        <a href="https://www.immowelt.de/expose/6d502903-f1ab-4862-b9d7-660e3107ba9e?utm_source=immobilo2&amp;utm_medium=koop&amp;utm_campaign=koop_seeker_iwt_b2c_immobilo2_x_buy_x_germany_x_x_x_de_x_x_x_x&amp;utm_term=low&amp;utm_content=xml" target="_blank" class="btn btn-outline-secondary">Open</a>
+                                        <a href="/refresh/25" class="btn btn-outline-info">Refresh</a>
+                                        <form action="/delete/25" method="POST" class="d-inline" onsubmit="return confirm('Remove this from tracking?');">
+                                            <button type="submit" class="btn btn-outline-danger w-100 rounded-top-0">Delete</button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                            
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
