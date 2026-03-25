@@ -1,0 +1,24 @@
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+
+# Virtual environments
+env/
+venv/
+.env
+.venv/
+env.bak/
+venv.bak/
+
+# Do not copy local database/instance files into the container image
+instance/
+
+# Git
+.git/
+.gitignore
+
+# OS specific
+.DS_Store
+Thumbs.db

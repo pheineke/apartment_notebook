@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  wohnungssucher:
+    build: .
+    container_name: wohnungssucher
+    restart: unless-stopped
+    ports:
+      - "8484:5000"
+    volumes:
+      # Persist the SQLite database across container restarts
+      - ./instance:/app/instance
+    environment:
+      # Fix timezone for APScheduler to hit the correct times
+      - TZ=Europe/Berlin
