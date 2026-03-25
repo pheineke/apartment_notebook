@@ -44,13 +44,29 @@ def add_apartment():
         flash('Please provide valid URLs.', 'error')
         return redirect(url_for('index'))
 
+    def normalize_url(u):
+        if u.endswith('/'):
+            u = u[:-1]
+        # Remove tracking parameters for known domains to prevent duplicates
+        if '?' in u and any(d in u for d in ['immobilienscout24.de', 'immowelt.de', 'immo.rheinpfalz.de', 'kleinanzeigen.de']):
+            u = u.split('?')[0]
+        return u
+
     added_count = 0
     new_urls = []
     
-    for url in urls:
-        existing = Apartment.query.filter_by(original_url=url).first()
+    for raw_url in urls:
+        url = normalize_url(raw_url)
+        # Check against both the normalized and the raw URL just in case
+        existing = Apartment.query.filter(
+            (Apartment.original_url == url) | 
+            (Apartment.original_url == raw_url) |
+            (Apartment.resolved_url == url)
+        ).first()
+        
         if existing:
             continue
+            
         new_apt = Apartment(original_url=url)
         db.session.add(new_apt)
         added_count += 1

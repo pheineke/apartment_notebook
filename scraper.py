@@ -142,12 +142,22 @@ def _extract_from_jsonld(items, data):
 
     if not data.get("picture_url"):
         img = _find_first_jsonld_key(items, ["image"])
-        if isinstance(img, list) and img:
-            img = img[0]
-        if isinstance(img, dict):
-            img = img.get("url")
-        if isinstance(img, str):
-            data["picture_url"] = img
+        pics = []
+        if isinstance(img, list):
+            for i in img:
+                if isinstance(i, str):
+                    pics.append(i)
+                elif isinstance(i, dict) and i.get("url"):
+                    pics.append(i.get("url"))
+        elif isinstance(img, dict):
+             if img.get("url"):
+                 pics.append(img.get("url"))
+        elif isinstance(img, str):
+            pics.append(img)
+            
+        if pics:
+            pics = list(dict.fromkeys(pics))
+            data["picture_url"] = json.dumps(pics)
 
     if not data.get("price"):
         for item in items:
@@ -180,17 +190,49 @@ def get_title(soup):
     return None
 
 
-def get_picture(soup):
-    img_tag = soup.find("meta", property="og:image")
-    if img_tag and img_tag.get("content"):
-        url = img_tag.get("content")
-        if "logo" not in url.lower() and "nopic" not in url.lower():
-            return url
+def get_picture(soup, url=""):
+    pictures = []
+    
+    if "kleinanzeigen" in url:
+        imgs = soup.find_all('img')
+        for img in imgs:
+            src = img.get('src')
+            if src and '$_59' in src: # $_59 is their high-res format
+                pictures.append(src)
+        
+        # Deduplicate while preserving order
+        pictures = list(dict.fromkeys(pictures))
+        if pictures:
+            return json.dumps(pictures)
+            
+    # Fallback to OG meta tags
+    # This might find multiple og:image tags if they exist
+    og_images = soup.find_all("meta", property="og:image")
+    if og_images:
+        for tag in og_images:
+            if tag.get("content"):
+                url_img = tag.get("content")
+                if "logo" not in url_img.lower() and "nopic" not in url_img.lower():
+                    pictures.append(url_img)
+                
+    if pictures:
+         return json.dumps(list(dict.fromkeys(pictures)))
 
-    img = soup.find("img")
-    if img and img.get("src") and str(img.get("src")).startswith("http"):
-        return img.get("src")
-    return None
+    # Second fallback for finding any generic gallery wrappers or images
+    img_tags = soup.find_all("img")
+    for img in img_tags:
+        src = img.get("src")
+        # heuristic filter out very small logos/tracking pixels
+        if src and str(src).startswith("http") and ("logo" not in src.lower()) and ("icon" not in src.lower()):
+            pictures.append(src)
+            
+    # Clean duplicates
+    pictures = list(dict.fromkeys(pictures))
+    
+    if pictures:
+        return json.dumps(pictures)
+        
+    return '[]'
 
 
 class FakeResponse:
